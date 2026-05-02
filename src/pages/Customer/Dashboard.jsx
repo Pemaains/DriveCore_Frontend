@@ -8,23 +8,20 @@ export default function CustomerDashboard() {
         {
             title: 'Book Appointment',
             description: 'Schedule a service appointment for your vehicle at your preferred date and time.',
-            icon: '📅',
+            label: 'SCHEDULING',
             path: '/book-appointment',
-            color: '#2a9d8f'
         },
         {
             title: 'Request a Part',
-            description: 'Can\'t find the part you need? Submit a request and we\'ll source it for you.',
-            icon: '🔧',
+            description: "Submit a request for an unavailable part and we'll source it for you.",
+            label: 'PROCUREMENT',
             path: '/request-part',
-            color: '#e76f51'
         },
         {
-            title: 'My Reviews',
-            description: 'Share your experience and rate the services you have received from us.',
-            icon: '⭐',
+            title: 'Service Reviews',
+            description: 'Rate and review the services you have received. Your feedback matters.',
+            label: 'FEEDBACK',
             path: '/my-reviews',
-            color: '#f4a261'
         }
     ]
 
@@ -33,92 +30,192 @@ export default function CustomerDashboard() {
             <Navbar />
 
             <div style={styles.wrapper}>
-                {/* Welcome Banner */}
-                <div style={styles.banner}>
-                    <div>
-                        <span style={styles.roleTag}>CUSTOMER</span>
-                        <h1 style={styles.bannerTitle}>Welcome to DriveCore</h1>
-                        <p style={styles.bannerSub}>Manage your appointments, part requests, and service reviews all in one place.</p>
+
+                {/* Header */}
+                <div style={styles.header}>
+                    <div style={styles.headerLeft}>
+                        <p style={styles.headerLabel}>CUSTOMER PORTAL</p>
+                        <h1 style={styles.headerTitle}>Welcome back.</h1>
+                        <p style={styles.headerSub}>
+                            Manage your vehicle services, parts, and feedback from one place.
+                        </p>
                     </div>
-                    <div style={styles.bannerIcon}>🚗</div>
+                    <div style={styles.headerRight}>
+                        <div style={styles.statBox}>
+                            <span style={styles.statNumber}>3</span>
+                            <span style={styles.statLabel}>Services Available</span>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Feature Cards */}
-                <h2 style={styles.sectionTitle}>What would you like to do?</h2>
+                {/* Divider */}
+                <div style={styles.divider} />
+
+                {/* Section Title */}
+                <p style={styles.sectionLabel}>AVAILABLE SERVICES</p>
+
+                {/* Cards */}
                 <div style={styles.grid}>
-                    {features.map((feature) => (
+                    {features.map((feature, i) => (
                         <div
                             key={feature.path}
                             style={styles.card}
                             onClick={() => navigate(feature.path)}
-                            onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-4px)'}
-                            onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+                            onMouseEnter={e => {
+                                e.currentTarget.style.background = '#111'
+                                e.currentTarget.style.borderColor = '#444'
+                            }}
+                            onMouseLeave={e => {
+                                e.currentTarget.style.background = '#0d0d0d'
+                                e.currentTarget.style.borderColor = '#222'
+                            }}
                         >
-                            <div style={{ ...styles.iconBox, background: feature.color }}>
-                                <span style={styles.icon}>{feature.icon}</span>
+                            <div style={styles.cardTop}>
+                                <span style={styles.cardLabel}>{feature.label}</span>
+                                <span style={styles.cardNumber}>0{i + 1}</span>
                             </div>
                             <h3 style={styles.cardTitle}>{feature.title}</h3>
                             <p style={styles.cardDesc}>{feature.description}</p>
-                            <button style={{ ...styles.cardBtn, background: feature.color }}>
-                                Go to {feature.title} →
-                            </button>
+                            <div style={styles.cardFooter}>
+                                <span style={styles.cardAction}>Access →</span>
+                            </div>
                         </div>
                     ))}
                 </div>
+
             </div>
         </div>
     )
 }
 
 const styles = {
-    page: { minHeight: '100vh', background: '#eef1f5', fontFamily: 'Arial, sans-serif' },
-    wrapper: { maxWidth: '1100px', margin: '0 auto', padding: '40px 30px' },
-    banner: {
-        background: '#111',
-        borderRadius: '16px',
-        padding: '40px',
-        marginBottom: '40px',
+    page: {
+        minHeight: '100vh',
+        background: '#060606',
+        fontFamily: "'Georgia', serif",
+        color: '#fff',
+    },
+    wrapper: {
+        maxWidth: '1100px',
+        margin: '0 auto',
+        padding: '64px 48px',
+    },
+    header: {
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'flex-end',
+        marginBottom: '48px',
     },
-    roleTag: { fontSize: '12px', fontWeight: 'bold', color: '#2a9d8f', letterSpacing: '1.5px' },
-    bannerTitle: { fontSize: '32px', fontWeight: 'bold', color: '#fff', margin: '8px 0' },
-    bannerSub: { color: '#aaa', fontSize: '15px', maxWidth: '500px' },
-    bannerIcon: { fontSize: '80px' },
-    sectionTitle: { fontSize: '20px', fontWeight: 'bold', color: '#111', marginBottom: '20px' },
-    grid: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' },
-    card: {
-        background: '#fff',
-        borderRadius: '12px',
-        padding: '28px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
-        cursor: 'pointer',
-        transition: 'transform 0.2s',
+    headerLeft: {
+        flex: 1,
+    },
+    headerLabel: {
+        fontSize: '11px',
+        letterSpacing: '3px',
+        color: '#555',
+        margin: '0 0 16px',
+        fontFamily: "'Georgia', serif",
+    },
+    headerTitle: {
+        fontSize: '52px',
+        fontWeight: '400',
+        color: '#fff',
+        margin: '0 0 12px',
+        lineHeight: 1.1,
+        fontFamily: "'Georgia', serif",
+    },
+    headerSub: {
+        fontSize: '15px',
+        color: '#666',
+        margin: 0,
+        maxWidth: '440px',
+        lineHeight: 1.6,
+    },
+    headerRight: {
+        textAlign: 'right',
+    },
+    statBox: {
         display: 'flex',
         flexDirection: 'column',
-        gap: '12px'
+        alignItems: 'flex-end',
+        gap: '4px',
     },
-    iconBox: {
-        width: '52px',
-        height: '52px',
-        borderRadius: '12px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+    statNumber: {
+        fontSize: '48px',
+        color: '#333',
+        fontWeight: '300',
+        lineHeight: 1,
     },
-    icon: { fontSize: '26px' },
-    cardTitle: { fontSize: '18px', fontWeight: 'bold', color: '#111', margin: 0 },
-    cardDesc: { fontSize: '14px', color: '#666', lineHeight: '1.5', margin: 0, flex: 1 },
-    cardBtn: {
-        padding: '10px 16px',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '8px',
-        fontSize: '13px',
-        fontWeight: 'bold',
+    statLabel: {
+        fontSize: '11px',
+        color: '#444',
+        letterSpacing: '2px',
+    },
+    divider: {
+        height: '1px',
+        background: '#1a1a1a',
+        marginBottom: '32px',
+    },
+    sectionLabel: {
+        fontSize: '11px',
+        letterSpacing: '3px',
+        color: '#444',
+        margin: '0 0 24px',
+    },
+    grid: {
+        display: 'grid',
+        gridTemplateColumns: 'repeat(3, 1fr)',
+        gap: '2px',
+    },
+    card: {
+        background: '#0d0d0d',
+        border: '1px solid #222',
+        padding: '36px 32px',
         cursor: 'pointer',
-        textAlign: 'left',
-        marginTop: '8px'
-    }
+        transition: 'background 0.2s, border-color 0.2s',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '16px',
+        minHeight: '260px',
+    },
+    cardTop: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    cardLabel: {
+        fontSize: '10px',
+        letterSpacing: '2px',
+        color: '#444',
+    },
+    cardNumber: {
+        fontSize: '12px',
+        color: '#333',
+        letterSpacing: '1px',
+    },
+    cardTitle: {
+        fontSize: '22px',
+        fontWeight: '400',
+        color: '#fff',
+        margin: 0,
+        lineHeight: 1.2,
+        fontFamily: "'Georgia', serif",
+    },
+    cardDesc: {
+        fontSize: '13px',
+        color: '#555',
+        margin: 0,
+        lineHeight: 1.7,
+        flex: 1,
+    },
+    cardFooter: {
+        borderTop: '1px solid #1a1a1a',
+        paddingTop: '16px',
+        marginTop: 'auto',
+    },
+    cardAction: {
+        fontSize: '12px',
+        color: '#666',
+        letterSpacing: '0.5px',
+    },
 }

@@ -1,5 +1,5 @@
-import Navbar from '../../components/common/Navbar'
 import { useState } from 'react'
+import Navbar from '../../components/common/Navbar'
 import api from '../../services/api'
 
 export default function BookAppointment() {
@@ -27,7 +27,7 @@ export default function BookAppointment() {
             setBooking(res.data)
             setForm({ customerId: '', appointmentDate: '', serviceType: '', status: 'Pending', notes: '' })
         } catch (err) {
-            setError('Failed to book appointment. Make sure the backend is running.')
+            setError('Unable to complete booking. Ensure the backend service is running.')
         } finally {
             setLoading(false)
         }
@@ -40,16 +40,17 @@ export default function BookAppointment() {
 
                 {/* Page Header */}
                 <div style={styles.pageHeader}>
-                    <span style={styles.roleTag}>CUSTOMER</span>
+                    <p style={styles.pageLabel}>SCHEDULING</p>
                     <h1 style={styles.pageTitle}>Book Appointment</h1>
                 </div>
 
-                {/* Main Content */}
+                <div style={styles.divider} />
+
                 <div style={styles.content}>
 
                     {/* Left - Form */}
-                    <div style={styles.card}>
-                        <h2 style={styles.cardTitle}>Appointment Details</h2>
+                    <div style={styles.formSection}>
+                        <p style={styles.sectionLabel}>APPOINTMENT DETAILS</p>
 
                         {error && <div style={styles.error}>{error}</div>}
 
@@ -63,11 +64,13 @@ export default function BookAppointment() {
                                     placeholder="Enter your customer ID"
                                     required
                                     style={styles.input}
+                                    onFocus={e => e.target.style.borderColor = '#555'}
+                                    onBlur={e => e.target.style.borderColor = '#222'}
                                 />
                             </div>
 
                             <div style={styles.field}>
-                                <label style={styles.label}>Date and time</label>
+                                <label style={styles.label}>Date & Time</label>
                                 <input
                                     type="datetime-local"
                                     name="appointmentDate"
@@ -75,11 +78,13 @@ export default function BookAppointment() {
                                     onChange={handleChange}
                                     required
                                     style={styles.input}
+                                    onFocus={e => e.target.style.borderColor = '#555'}
+                                    onBlur={e => e.target.style.borderColor = '#222'}
                                 />
                             </div>
 
                             <div style={styles.field}>
-                                <label style={styles.label}>Service type</label>
+                                <label style={styles.label}>Service Type</label>
                                 <select
                                     name="serviceType"
                                     value={form.serviceType}
@@ -87,7 +92,7 @@ export default function BookAppointment() {
                                     required
                                     style={styles.input}
                                 >
-                                    <option value="">Select service</option>
+                                    <option value="">Select a service</option>
                                     <option value="Oil Change">Oil Change</option>
                                     <option value="Brake Inspection">Brake Inspection</option>
                                     <option value="Tire Replacement">Tire Replacement</option>
@@ -97,46 +102,77 @@ export default function BookAppointment() {
                             </div>
 
                             <div style={styles.field}>
-                                <label style={styles.label}>Notes</label>
+                                <label style={styles.label}>Notes <span style={styles.optional}>(optional)</span></label>
                                 <textarea
                                     name="notes"
                                     value={form.notes}
                                     onChange={handleChange}
-                                    placeholder="Any special requests..."
-                                    style={{ ...styles.input, height: '120px', resize: 'vertical' }}
+                                    placeholder="Any specific requests or details..."
+                                    style={{ ...styles.input, height: '100px', resize: 'vertical' }}
+                                    onFocus={e => e.target.style.borderColor = '#555'}
+                                    onBlur={e => e.target.style.borderColor = '#222'}
                                 />
                             </div>
 
-                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                                <button type="submit" style={styles.button} disabled={loading}>
-                                    {loading ? 'Booking...' : 'Book Appointment'}
-                                </button>
-                            </div>
+                            <button type="submit" style={styles.button} disabled={loading}
+                                onMouseEnter={e => e.target.style.background = '#fff'}
+                                onMouseLeave={e => e.target.style.background = '#f0f0f0'}
+                            >
+                                {loading ? 'Processing...' : 'Confirm Booking'}
+                            </button>
                         </form>
                     </div>
 
-                    {/* Right - Status Panel */}
-                    <div style={styles.statusCard}>
-                        <div style={styles.statusHeader}>
-                            <h3 style={styles.statusTitle}>Booking Status</h3>
-                            <span style={booking ? styles.badgeSuccess : styles.badge}>
-                                {booking ? 'Confirmed' : 'Pending'}
-                            </span>
-                        </div>
+                    {/* Right - Status */}
+                    <div style={styles.statusSection}>
+                        <p style={styles.sectionLabel}>BOOKING STATUS</p>
 
-                        {booking ? (
-                            <div style={styles.statusDetails}>
-                                <p style={styles.statusRow}><strong>ID:</strong> #{booking.id}</p>
-                                <p style={styles.statusRow}><strong>Customer:</strong> {booking.customerId}</p>
-                                <p style={styles.statusRow}><strong>Service:</strong> {booking.serviceType}</p>
-                                <p style={styles.statusRow}><strong>Date:</strong> {new Date(booking.appointmentDate).toLocaleString()}</p>
-                                <p style={styles.statusRow}><strong>Status:</strong> {booking.status}</p>
-                                {booking.notes && <p style={styles.statusRow}><strong>Notes:</strong> {booking.notes}</p>}
-                                <div style={styles.successBanner}>✅ Appointment booked successfully!</div>
+                        <div style={styles.statusCard}>
+                            <div style={styles.statusTop}>
+                                <span style={styles.statusLabel}>Status</span>
+                                <span style={booking ? styles.statusBadgeActive : styles.statusBadge}>
+                                    {booking ? 'CONFIRMED' : 'AWAITING'}
+                                </span>
                             </div>
-                        ) : (
-                            <p style={styles.statusEmpty}>No appointment booked yet.</p>
-                        )}
+
+                            {booking ? (
+                                <div style={styles.statusBody}>
+                                    <div style={styles.statusDivider} />
+                                    <div style={styles.statusRow}>
+                                        <span style={styles.statusKey}>Reference</span>
+                                        <span style={styles.statusVal}>#{String(booking.id).padStart(4, '0')}</span>
+                                    </div>
+                                    <div style={styles.statusRow}>
+                                        <span style={styles.statusKey}>Customer</span>
+                                        <span style={styles.statusVal}>{booking.customerId}</span>
+                                    </div>
+                                    <div style={styles.statusRow}>
+                                        <span style={styles.statusKey}>Service</span>
+                                        <span style={styles.statusVal}>{booking.serviceType}</span>
+                                    </div>
+                                    <div style={styles.statusRow}>
+                                        <span style={styles.statusKey}>Date</span>
+                                        <span style={styles.statusVal}>{new Date(booking.appointmentDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                                    </div>
+                                    <div style={styles.statusRow}>
+                                        <span style={styles.statusKey}>Time</span>
+                                        <span style={styles.statusVal}>{new Date(booking.appointmentDate).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</span>
+                                    </div>
+                                    {booking.notes && (
+                                        <div style={styles.statusRow}>
+                                            <span style={styles.statusKey}>Notes</span>
+                                            <span style={styles.statusVal}>{booking.notes}</span>
+                                        </div>
+                                    )}
+                                    <div style={styles.statusDivider} />
+                                    <p style={styles.statusConfirm}>Appointment booked successfully.</p>
+                                </div>
+                            ) : (
+                                <div style={styles.statusEmpty}>
+                                    <p style={styles.statusEmptyText}>Complete the form to book your appointment.</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                 </div>
@@ -146,153 +182,59 @@ export default function BookAppointment() {
 }
 
 const styles = {
-    page: {
-        minHeight: '100vh',
-        background: '#eef1f5',
-        fontFamily: 'Arial, sans-serif',
-        padding: '40px 30px'
-    },
-    wrapper: {
-        maxWidth: '1100px',
-        margin: '0 auto'
-    },
-    pageHeader: {
-        marginBottom: '24px'
-    },
-    roleTag: {
-        fontSize: '12px',
-        fontWeight: 'bold',
-        color: '#2a9d8f',
-        letterSpacing: '1.5px',
-        textTransform: 'uppercase'
-    },
-    pageTitle: {
-        fontSize: '32px',
-        fontWeight: 'bold',
-        color: '#111',
-        margin: '4px 0 0'
-    },
-    content: {
-        display: 'flex',
-        gap: '24px',
-        alignItems: 'flex-start'
-    },
-    card: {
-        background: '#fff',
-        borderRadius: '12px',
-        padding: '32px',
-        flex: 2,
-        boxShadow: '0 2px 8px rgba(0,0,0,0.07)'
-    },
-    cardTitle: {
-        fontSize: '18px',
-        fontWeight: 'bold',
-        color: '#111',
-        marginBottom: '24px'
-    },
-    form: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '18px'
-    },
-    field: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '6px'
-    },
-    label: {
-        fontSize: '14px',
-        fontWeight: '600',
-        color: '#333'
-    },
+    page: { minHeight: '100vh', background: '#060606', fontFamily: "'Georgia', serif", color: '#fff' },
+    wrapper: { maxWidth: '1100px', margin: '0 auto', padding: '64px 48px' },
+    pageHeader: { marginBottom: '32px' },
+    pageLabel: { fontSize: '11px', letterSpacing: '3px', color: '#444', margin: '0 0 12px' },
+    pageTitle: { fontSize: '42px', fontWeight: '400', color: '#fff', margin: 0, fontFamily: "'Georgia', serif" },
+    divider: { height: '1px', background: '#1a1a1a', marginBottom: '48px' },
+    content: { display: 'flex', gap: '64px', alignItems: 'flex-start' },
+    formSection: { flex: 1.4 },
+    sectionLabel: { fontSize: '10px', letterSpacing: '3px', color: '#444', margin: '0 0 24px' },
+    form: { display: 'flex', flexDirection: 'column', gap: '24px' },
+    field: { display: 'flex', flexDirection: 'column', gap: '8px' },
+    label: { fontSize: '12px', color: '#888', letterSpacing: '0.5px' },
+    optional: { color: '#444', fontSize: '11px' },
     input: {
-        padding: '11px 14px',
-        borderRadius: '8px',
-        border: '1.5px solid #ddd',
-        fontSize: '15px',
+        padding: '14px 16px',
+        background: '#0d0d0d',
+        border: '1px solid #222',
+        borderRadius: '2px',
+        fontSize: '14px',
+        color: '#fff',
         width: '100%',
         boxSizing: 'border-box',
-        color: '#111',
-        background: '#fff',
-        outline: 'none'
+        fontFamily: "'Georgia', serif",
+        outline: 'none',
+        transition: 'border-color 0.2s',
     },
     button: {
-        padding: '12px 28px',
-        background: '#2a9d8f',
-        color: '#fff',
-        border: 'none',
-        borderRadius: '8px',
-        fontSize: '15px',
-        fontWeight: 'bold',
-        cursor: 'pointer'
-    },
-    statusCard: {
-        background: '#fff',
-        borderRadius: '12px',
-        padding: '24px',
-        flex: 1,
-        boxShadow: '0 2px 8px rgba(0,0,0,0.07)',
-        minWidth: '260px'
-    },
-    statusHeader: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '16px'
-    },
-    statusTitle: {
-        fontSize: '16px',
-        fontWeight: 'bold',
-        color: '#111',
-        margin: 0
-    },
-    badge: {
+        padding: '16px',
         background: '#f0f0f0',
-        color: '#555',
-        padding: '4px 12px',
-        borderRadius: '20px',
+        color: '#000',
+        border: 'none',
+        borderRadius: '2px',
         fontSize: '13px',
-        fontWeight: '600'
+        fontWeight: '600',
+        letterSpacing: '1px',
+        cursor: 'pointer',
+        marginTop: '8px',
+        fontFamily: "'Georgia', serif",
+        transition: 'background 0.2s',
     },
-    badgeSuccess: {
-        background: '#d4edda',
-        color: '#155724',
-        padding: '4px 12px',
-        borderRadius: '20px',
-        fontSize: '13px',
-        fontWeight: '600'
-    },
-    statusEmpty: {
-        color: '#888',
-        fontSize: '14px'
-    },
-    statusDetails: {
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '8px'
-    },
-    statusRow: {
-        fontSize: '14px',
-        color: '#333',
-        margin: 0
-    },
-    successBanner: {
-        marginTop: '12px',
-        background: '#d4edda',
-        color: '#155724',
-        padding: '10px',
-        borderRadius: '8px',
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: '14px'
-    },
-    error: {
-        background: '#fff3f3',
-        border: '1px solid #f5c6cb',
-        color: '#721c24',
-        padding: '12px',
-        borderRadius: '8px',
-        marginBottom: '16px',
-        fontSize: '14px'
-    }
+    error: { background: '#111', border: '1px solid #333', color: '#999', padding: '14px 16px', borderRadius: '2px', fontSize: '13px', marginBottom: '8px' },
+    statusSection: { flex: 1 },
+    statusCard: { background: '#0d0d0d', border: '1px solid #1f1f1f', padding: '28px', borderRadius: '2px' },
+    statusTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+    statusLabel: { fontSize: '12px', color: '#555' },
+    statusBadge: { fontSize: '10px', letterSpacing: '2px', color: '#444', background: '#111', padding: '6px 12px', border: '1px solid #222' },
+    statusBadgeActive: { fontSize: '10px', letterSpacing: '2px', color: '#d4edda', background: '#0d1f12', padding: '6px 12px', border: '1px solid #1a3a22' },
+    statusBody: { display: 'flex', flexDirection: 'column', gap: '12px' },
+    statusDivider: { height: '1px', background: '#1a1a1a', margin: '4px 0' },
+    statusRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' },
+    statusKey: { fontSize: '11px', color: '#444', letterSpacing: '0.5px', minWidth: '70px' },
+    statusVal: { fontSize: '13px', color: '#ccc', textAlign: 'right' },
+    statusConfirm: { fontSize: '12px', color: '#4a8', margin: 0, textAlign: 'center', letterSpacing: '0.5px' },
+    statusEmpty: { paddingTop: '24px' },
+    statusEmptyText: { fontSize: '13px', color: '#333', lineHeight: 1.6, margin: 0 },
 }
