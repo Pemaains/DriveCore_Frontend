@@ -7,6 +7,7 @@ export default function Navbar() {
         { path: '/customer/dashboard', label: 'Dashboard' },
         { path: '/book-appointment', label: 'Book Appointment' },
         { path: '/request-part', label: 'Request Part' },
+        { path: '/my-reviews', label: 'My Reviews' },
     ]
 
     return (
