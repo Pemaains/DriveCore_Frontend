@@ -28,7 +28,6 @@ export default function CustomerDashboard() {
     return (
         <div style={styles.page}>
             <Navbar />
-
             <div style={styles.wrapper}>
 
                 {/* Header */}
@@ -48,13 +47,10 @@ export default function CustomerDashboard() {
                     </div>
                 </div>
 
-                {/* Divider */}
                 <div style={styles.divider} />
 
-                {/* Section Title */}
                 <p style={styles.sectionLabel}>AVAILABLE SERVICES</p>
 
-                {/* Cards */}
                 <div style={styles.grid}>
                     {features.map((feature, i) => (
                         <div
@@ -62,12 +58,12 @@ export default function CustomerDashboard() {
                             style={styles.card}
                             onClick={() => navigate(feature.path)}
                             onMouseEnter={e => {
-                                e.currentTarget.style.background = '#111'
-                                e.currentTarget.style.borderColor = '#444'
+                                e.currentTarget.style.background = '#2a2a2a'
+                                e.currentTarget.style.borderColor = '#555'
                             }}
                             onMouseLeave={e => {
-                                e.currentTarget.style.background = '#0d0d0d'
-                                e.currentTarget.style.borderColor = '#222'
+                                e.currentTarget.style.background = '#242424'
+                                e.currentTarget.style.borderColor = '#333'
                             }}
                         >
                             <div style={styles.cardTop}>
@@ -89,87 +85,23 @@ export default function CustomerDashboard() {
 }
 
 const styles = {
-    page: {
-        minHeight: '100vh',
-        background: '#060606',
-        fontFamily: "'Georgia', serif",
-        color: '#fff',
-    },
-    wrapper: {
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '64px 48px',
-    },
-    header: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        marginBottom: '48px',
-    },
-    headerLeft: {
-        flex: 1,
-    },
-    headerLabel: {
-        fontSize: '11px',
-        letterSpacing: '3px',
-        color: '#555',
-        margin: '0 0 16px',
-        fontFamily: "'Georgia', serif",
-    },
-    headerTitle: {
-        fontSize: '52px',
-        fontWeight: '400',
-        color: '#fff',
-        margin: '0 0 12px',
-        lineHeight: 1.1,
-        fontFamily: "'Georgia', serif",
-    },
-    headerSub: {
-        fontSize: '15px',
-        color: '#666',
-        margin: 0,
-        maxWidth: '440px',
-        lineHeight: 1.6,
-    },
-    headerRight: {
-        textAlign: 'right',
-    },
-    statBox: {
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        gap: '4px',
-    },
-    statNumber: {
-        fontSize: '48px',
-        color: '#333',
-        fontWeight: '300',
-        lineHeight: 1,
-    },
-    statLabel: {
-        fontSize: '11px',
-        color: '#444',
-        letterSpacing: '2px',
-    },
-    divider: {
-        height: '1px',
-        background: '#1a1a1a',
-        marginBottom: '32px',
-    },
-    sectionLabel: {
-        fontSize: '11px',
-        letterSpacing: '3px',
-        color: '#444',
-        margin: '0 0 24px',
-    },
-    grid: {
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '2px',
-    },
+    page: { minHeight: '100vh', background: '#181818', fontFamily: "'Georgia', serif", color: '#fff' },
+    wrapper: { maxWidth: '1100px', margin: '0 auto', padding: '64px 48px' },
+    header: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '48px' },
+    headerLeft: { flex: 1 },
+    headerLabel: { fontSize: '12px', letterSpacing: '3px', color: '#666', margin: '0 0 16px' },
+    headerTitle: { fontSize: '54px', fontWeight: '400', color: '#f0f0f0', margin: '0 0 14px', lineHeight: 1.1 },
+    headerSub: { fontSize: '16px', color: '#888', margin: 0, maxWidth: '440px', lineHeight: 1.7 },
+    headerRight: { textAlign: 'right' },
+    statBox: { display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '4px' },
+    statNumber: { fontSize: '52px', color: '#444', fontWeight: '300', lineHeight: 1 },
+    statLabel: { fontSize: '12px', color: '#555', letterSpacing: '2px' },
+    divider: { height: '1px', background: '#2e2e2e', marginBottom: '36px' },
+    sectionLabel: { fontSize: '12px', letterSpacing: '3px', color: '#555', margin: '0 0 24px' },
+    grid: { display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2px' },
     card: {
-        background: '#0d0d0d',
-        border: '1px solid #222',
+        background: '#242424',
+        border: '1px solid #333',
         padding: '36px 32px',
         cursor: 'pointer',
         transition: 'background 0.2s, border-color 0.2s',
@@ -178,44 +110,11 @@ const styles = {
         gap: '16px',
         minHeight: '260px',
     },
-    cardTop: {
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    cardLabel: {
-        fontSize: '10px',
-        letterSpacing: '2px',
-        color: '#444',
-    },
-    cardNumber: {
-        fontSize: '12px',
-        color: '#333',
-        letterSpacing: '1px',
-    },
-    cardTitle: {
-        fontSize: '22px',
-        fontWeight: '400',
-        color: '#fff',
-        margin: 0,
-        lineHeight: 1.2,
-        fontFamily: "'Georgia', serif",
-    },
-    cardDesc: {
-        fontSize: '13px',
-        color: '#555',
-        margin: 0,
-        lineHeight: 1.7,
-        flex: 1,
-    },
-    cardFooter: {
-        borderTop: '1px solid #1a1a1a',
-        paddingTop: '16px',
-        marginTop: 'auto',
-    },
-    cardAction: {
-        fontSize: '12px',
-        color: '#666',
-        letterSpacing: '0.5px',
-    },
+    cardTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
+    cardLabel: { fontSize: '11px', letterSpacing: '2px', color: '#555' },
+    cardNumber: { fontSize: '13px', color: '#444', letterSpacing: '1px' },
+    cardTitle: { fontSize: '23px', fontWeight: '400', color: '#f0f0f0', margin: 0, lineHeight: 1.2 },
+    cardDesc: { fontSize: '15px', color: '#777', margin: 0, lineHeight: 1.7, flex: 1 },
+    cardFooter: { borderTop: '1px solid #2e2e2e', paddingTop: '16px', marginTop: 'auto' },
+    cardAction: { fontSize: '14px', color: '#777', letterSpacing: '0.5px' },
 }
