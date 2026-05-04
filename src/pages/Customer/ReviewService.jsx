@@ -1,195 +1,214 @@
 import { useState } from 'react'
-import Navbar from '../../components/common/Navbar'
-import api from '../../services/api'
+import { getApiError, reviewApi } from '../../services/api'
 
-export default function ReviewService() {
-    const [form, setForm] = useState({ customerId: '', rating: 0, comment: '' })
-    const [review, setReview] = useState(null)
-    const [error, setError] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [hovered, setHovered] = useState(0)
+const emptyReviewForm = {
+  customerId: '',
+  rating: 0,
+  comment: '',
+}
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
+const ratingLabels = {
+  1: 'Poor',
+  2: 'Fair',
+  3: 'Good',
+  4: 'Very Good',
+  5: 'Excellent',
+}
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError('')
-        if (form.rating === 0) { setError('Please select a rating before submitting.'); return }
-        setLoading(true)
-        try {
-            const res = await api.post('/Review', { ...form, rating: parseInt(form.rating) })
-            setReview(res.data)
-            setForm({ customerId: '', rating: 0, comment: '' })
-        } catch {
-            setError('Unable to submit review. Ensure the backend service is running.')
-        } finally {
-            setLoading(false)
-        }
+function formatDate(value) {
+  if (!value) return 'Just now'
+
+  return new Intl.DateTimeFormat(undefined, {
+    dateStyle: 'medium',
+    timeStyle: 'short',
+  }).format(new Date(value))
+}
+
+function ReviewService() {
+  const [form, setForm] = useState(emptyReviewForm)
+  const [submittedReview, setSubmittedReview] = useState(null)
+  const [hoveredRating, setHoveredRating] = useState(0)
+  const [saving, setSaving] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+
+  function handleChange(event) {
+    const { name, value } = event.target
+    setForm((currentForm) => ({
+      ...currentForm,
+      [name]: value,
+    }))
+  }
+
+  function validateForm() {
+    if (!form.customerId.trim()) return 'Customer ID is required.'
+    if (!form.rating) return 'Please select a rating before submitting.'
+    if (!form.comment.trim()) return 'Comment is required.'
+
+    return ''
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault()
+
+    const validationError = validateForm()
+    if (validationError) {
+      setError(validationError)
+      setSuccess('')
+      return
     }
 
-    const ratingLabels = { 1: 'Poor', 2: 'Fair', 3: 'Good', 4: 'Very Good', 5: 'Excellent' }
+    try {
+      setSaving(true)
+      setError('')
+      setSuccess('')
 
-    return (
-        <div style={styles.page}>
-            <Navbar />
-            <div style={styles.wrapper}>
+      const review = await reviewApi.create({
+        customerId: form.customerId.trim(),
+        rating: Number(form.rating),
+        comment: form.comment.trim(),
+      })
 
-                <div style={styles.pageHeader}>
-                    <p style={styles.pageLabel}>FEEDBACK</p>
-                    <h1 style={styles.pageTitle}>Service Review</h1>
-                </div>
+      setSubmittedReview(review)
+      setSuccess('Review submitted successfully.')
+      setForm(emptyReviewForm)
+    } catch (err) {
+      setError(getApiError(err))
+    } finally {
+      setSaving(false)
+    }
+  }
 
-                <div style={styles.divider} />
+  const visibleRating = hoveredRating || form.rating
 
-                <div style={styles.content}>
-                    <div style={styles.formSection}>
-                        <p style={styles.sectionLabel}>YOUR EXPERIENCE</p>
-                        {error && <div style={styles.error}>{error}</div>}
-
-                        <form onSubmit={handleSubmit} style={styles.form}>
-                            <div style={styles.field}>
-                                <label style={styles.label}>Customer ID</label>
-                                <input name="customerId" value={form.customerId} onChange={handleChange}
-                                    placeholder="Enter your customer ID" required style={styles.input}
-                                    onFocus={e => e.target.style.borderColor = '#777'}
-                                    onBlur={e => e.target.style.borderColor = '#333'} />
-                            </div>
-
-                            <div style={styles.field}>
-                                <label style={styles.label}>Rating</label>
-                                <div style={styles.ratingWrapper}>
-                                    <div style={styles.stars}>
-                                        {[1, 2, 3, 4, 5].map(star => (
-                                            <button key={star} type="button"
-                                                onClick={() => setForm({ ...form, rating: star })}
-                                                onMouseEnter={() => setHovered(star)}
-                                                onMouseLeave={() => setHovered(0)}
-                                                style={{
-                                                    ...styles.starBtn,
-                                                    color: star <= (hovered || form.rating) ? '#e0e0e0' : '#333',
-                                                }}>
-                                                ★
-                                            </button>
-                                        ))}
-                                    </div>
-                                    <span style={styles.ratingLabel}>
-                                        {hovered ? ratingLabels[hovered] : form.rating ? ratingLabels[form.rating] : 'Select a rating'}
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div style={styles.field}>
-                                <label style={styles.label}>Comment</label>
-                                <textarea name="comment" value={form.comment} onChange={handleChange}
-                                    placeholder="Describe your experience with our service in detail..."
-                                    required style={{ ...styles.input, height: '120px', resize: 'vertical' }}
-                                    onFocus={e => e.target.style.borderColor = '#777'}
-                                    onBlur={e => e.target.style.borderColor = '#333'} />
-                            </div>
-
-                            <button type="submit" style={styles.button} disabled={loading}
-                                onMouseEnter={e => e.target.style.background = '#fff'}
-                                onMouseLeave={e => e.target.style.background = '#efefef'}>
-                                {loading ? 'Processing...' : 'Submit Review'}
-                            </button>
-                        </form>
-                    </div>
-
-                    <div style={styles.statusSection}>
-                        <p style={styles.sectionLabel}>REVIEW STATUS</p>
-                        <div style={styles.statusCard}>
-                            <div style={styles.statusTop}>
-                                <span style={styles.statusLabel}>Status</span>
-                                <span style={review ? styles.badgeActive : styles.badge}>
-                                    {review ? 'SUBMITTED' : 'AWAITING'}
-                                </span>
-                            </div>
-
-                            {review ? (
-                                <div style={styles.statusBody}>
-                                    <div style={styles.statusDivider} />
-                                    <div style={styles.statusRow}>
-                                        <span style={styles.statusKey}>Reference</span>
-                                        <span style={styles.statusVal}>#{String(review.id).padStart(4, '0')}</span>
-                                    </div>
-                                    <div style={styles.statusRow}>
-                                        <span style={styles.statusKey}>Customer</span>
-                                        <span style={styles.statusVal}>{review.customerId}</span>
-                                    </div>
-                                    <div style={styles.statusRow}>
-                                        <span style={styles.statusKey}>Rating</span>
-                                        <span style={styles.statusVal}>
-                                            {[1, 2, 3, 4, 5].map(s => (
-                                                <span key={s} style={{ color: s <= review.rating ? '#ccc' : '#333', fontSize: '16px' }}>★</span>
-                                            ))}
-                                            <span style={{ marginLeft: '8px', fontSize: '13px', color: '#888' }}>{ratingLabels[review.rating]}</span>
-                                        </span>
-                                    </div>
-                                    <div style={styles.statusRow}>
-                                        <span style={styles.statusKey}>Comment</span>
-                                        <span style={styles.statusVal}>{review.comment}</span>
-                                    </div>
-                                    <div style={styles.statusRow}>
-                                        <span style={styles.statusKey}>Date</span>
-                                        <span style={styles.statusVal}>{new Date(review.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                                    </div>
-                                    <div style={styles.statusDivider} />
-                                    <p style={styles.statusConfirm}>Thank you. Your feedback has been recorded.</p>
-                                </div>
-                            ) : (
-                                <p style={styles.statusEmptyText}>Share your experience to help us improve our services.</p>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
+  return (
+    <section className="page narrow-page">
+      <div className="page-heading">
+        <div>
+          <p className="eyebrow">Feedback</p>
+          <h1>Service Review</h1>
         </div>
-    )
+      </div>
+
+      {error && <div className="alert alert-error">{error}</div>}
+      {success && <div className="alert alert-success">{success}</div>}
+
+      {submittedReview && (
+        <div className="details-strip">
+          <span>Review #{submittedReview.id}</span>
+          <span>Submitted</span>
+        </div>
+      )}
+
+      <div className="two-column-layout customer-request-layout">
+        <form className="panel form-stack" onSubmit={handleSubmit}>
+          <section>
+            <h2>Your Experience</h2>
+            <div className="form-grid single-column-form">
+              <label>
+                Customer ID
+                <input
+                  type="text"
+                  name="customerId"
+                  value={form.customerId}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+
+              <label>
+                Rating
+                <span className="rating-wrapper">
+                  <span className="stars" onMouseLeave={() => setHoveredRating(0)}>
+                    {[1, 2, 3, 4, 5].map((rating) => (
+                      <button
+                        key={rating}
+                        type="button"
+                        className={
+                          rating <= visibleRating
+                            ? 'star-button selected'
+                            : 'star-button'
+                        }
+                        onClick={() =>
+                          setForm((currentForm) => ({
+                            ...currentForm,
+                            rating,
+                          }))
+                        }
+                        onMouseEnter={() => setHoveredRating(rating)}
+                        aria-label={`${rating} star rating`}
+                      >
+                        ★
+                      </button>
+                    ))}
+                  </span>
+                  <span className="rating-label">
+                    {visibleRating
+                      ? ratingLabels[visibleRating]
+                      : 'Select a rating'}
+                  </span>
+                </span>
+              </label>
+
+              <label>
+                Comment
+                <textarea
+                  name="comment"
+                  value={form.comment}
+                  onChange={handleChange}
+                  rows="5"
+                  required
+                />
+              </label>
+            </div>
+          </section>
+
+          <div className="form-actions">
+            <button type="submit" className="primary-button" disabled={saving}>
+              {saving ? 'Submitting...' : 'Submit Review'}
+            </button>
+          </div>
+        </form>
+
+        <section className="panel">
+          <div className="section-title">
+            <h2>Review Status</h2>
+            <span className="count-label">
+              {submittedReview ? 'Submitted' : 'Awaiting'}
+            </span>
+          </div>
+
+          {submittedReview ? (
+            <dl className="details-list request-summary-list">
+              <div>
+                <dt>Customer ID</dt>
+                <dd>{submittedReview.customerId}</dd>
+              </div>
+              <div>
+                <dt>Rating</dt>
+                <dd>
+                  {submittedReview.rating} / 5 -{' '}
+                  {ratingLabels[submittedReview.rating]}
+                </dd>
+              </div>
+              <div>
+                <dt>Comment</dt>
+                <dd>{submittedReview.comment}</dd>
+              </div>
+              <div>
+                <dt>Submitted</dt>
+                <dd>{formatDate(submittedReview.createdAt)}</dd>
+              </div>
+            </dl>
+          ) : (
+            <p className="muted">
+              Share your experience to help improve future services.
+            </p>
+          )}
+        </section>
+      </div>
+    </section>
+  )
 }
 
-const styles = {
-    page: { minHeight: '100vh', background: '#181818', fontFamily: "'Georgia', serif", color: '#fff' },
-    wrapper: { maxWidth: '1100px', margin: '0 auto', padding: '64px 48px' },
-    pageHeader: { marginBottom: '32px' },
-    pageLabel: { fontSize: '12px', letterSpacing: '3px', color: '#555', margin: '0 0 12px' },
-    pageTitle: { fontSize: '44px', fontWeight: '400', color: '#f0f0f0', margin: 0 },
-    divider: { height: '1px', background: '#2e2e2e', marginBottom: '48px' },
-    content: { display: 'flex', gap: '64px', alignItems: 'flex-start' },
-    formSection: { flex: 1.4 },
-    sectionLabel: { fontSize: '12px', letterSpacing: '3px', color: '#555', margin: '0 0 28px' },
-    form: { display: 'flex', flexDirection: 'column', gap: '24px' },
-    field: { display: 'flex', flexDirection: 'column', gap: '8px' },
-    label: { fontSize: '14px', color: '#aaa', letterSpacing: '0.5px' },
-    input: {
-        padding: '14px 16px', background: '#222', border: '1px solid #333',
-        borderRadius: '3px', fontSize: '15px', color: '#eee', width: '100%',
-        boxSizing: 'border-box', fontFamily: "'Georgia', serif", outline: 'none',
-        transition: 'border-color 0.2s',
-    },
-    ratingWrapper: { display: 'flex', alignItems: 'center', gap: '16px' },
-    stars: { display: 'flex', gap: '4px' },
-    starBtn: {
-        background: 'none', border: 'none', fontSize: '30px',
-        cursor: 'pointer', padding: '4px', transition: 'color 0.15s', lineHeight: 1,
-    },
-    ratingLabel: { fontSize: '14px', color: '#666', letterSpacing: '0.5px' },
-    button: {
-        padding: '16px', background: '#efefef', color: '#111', border: 'none',
-        borderRadius: '3px', fontSize: '15px', fontWeight: '600', letterSpacing: '1px',
-        cursor: 'pointer', marginTop: '8px', fontFamily: "'Georgia', serif", transition: 'background 0.2s',
-    },
-    error: { background: '#222', border: '1px solid #444', color: '#aaa', padding: '14px 16px', borderRadius: '3px', fontSize: '14px', marginBottom: '8px' },
-    statusSection: { flex: 1 },
-    statusCard: { background: '#222', border: '1px solid #333', padding: '28px', borderRadius: '3px' },
-    statusTop: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' },
-    statusLabel: { fontSize: '14px', color: '#777' },
-    badge: { fontSize: '11px', letterSpacing: '2px', color: '#555', background: '#2a2a2a', padding: '6px 14px', border: '1px solid #333', borderRadius: '2px' },
-    badgeActive: { fontSize: '11px', letterSpacing: '2px', color: '#b8dfc0', background: '#1a2e1e', padding: '6px 14px', border: '1px solid #2a4a30', borderRadius: '2px' },
-    statusBody: { display: 'flex', flexDirection: 'column', gap: '12px' },
-    statusDivider: { height: '1px', background: '#2e2e2e', margin: '4px 0' },
-    statusRow: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '16px' },
-    statusKey: { fontSize: '13px', color: '#555', minWidth: '75px' },
-    statusVal: { fontSize: '14px', color: '#ccc', textAlign: 'right' },
-    statusConfirm: { fontSize: '13px', color: '#5a9', margin: 0, textAlign: 'center', letterSpacing: '0.5px' },
-    statusEmptyText: { fontSize: '14px', color: '#555', lineHeight: 1.7, margin: '24px 0 0' },
-}
+export default ReviewService

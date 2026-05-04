@@ -1,0 +1,110 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import DashboardCard from '../../components/DashboardCard'
+
+function StaffDashboard() {
+  const navigate = useNavigate()
+  const [customerId, setCustomerId] = useState('')
+  const [error, setError] = useState('')
+
+  function handleCustomerLookup(event) {
+    event.preventDefault()
+
+    if (!customerId.trim()) {
+      setError('Customer ID is required.')
+      return
+    }
+
+    setError('')
+    navigate(`/staff/customers/${customerId.trim()}`)
+  }
+
+  return (
+    <section className="page dashboard-page">
+      <div className="page-heading">
+        <div>
+          <p className="eyebrow">Staff</p>
+          <h1>Dashboard</h1>
+        </div>
+      </div>
+
+      <section className="dashboard-split">
+        <div className="panel dashboard-lookup">
+          <div className="section-title">
+            <h2>Customer Lookup</h2>
+          </div>
+
+          <form className="lookup-bar compact-lookup" onSubmit={handleCustomerLookup}>
+            <label>
+              Customer ID
+              <input
+                type="number"
+                min="1"
+                value={customerId}
+                onChange={(event) => setCustomerId(event.target.value)}
+                required
+              />
+            </label>
+            <button type="submit" className="primary-button">
+              Load Customer
+            </button>
+          </form>
+
+          {error && <div className="alert alert-error">{error}</div>}
+        </div>
+
+        <div className="panel dashboard-notes">
+          <div className="section-title">
+            <h2>Active Work</h2>
+          </div>
+          <p className="muted">
+            Staff can register customers with vehicle details, then open the
+            customer record for service desk follow-up.
+          </p>
+        </div>
+      </section>
+
+      <section className="dashboard-grid" aria-label="Staff functions">
+        <DashboardCard
+          accent="teal"
+          description="Create a customer account and add the first vehicle in one workflow."
+          eyebrow="Customers"
+          meta="Available now"
+          title="Register Customer"
+          to="/staff/customers/register"
+        />
+        <DashboardCard
+          accent="blue"
+          description="Open a customer profile, contact details, and vehicle records by customer ID."
+          eyebrow="Records"
+          meta="Available now"
+          title="Customer Details"
+          to="/staff/customers"
+        />
+        <DashboardCard
+          accent="amber"
+          description="Browse and maintain the full customer list after list endpoints are added."
+          eyebrow="Customers"
+          meta="Module pending"
+          title="Manage Customers"
+        />
+        <DashboardCard
+          accent="rose"
+          description="Prepare service and sales invoices when billing endpoints are connected."
+          eyebrow="Billing"
+          meta="Module pending"
+          title="Sales Invoices"
+        />
+        <DashboardCard
+          accent="violet"
+          description="Review customer service and sales reports once reporting data is available."
+          eyebrow="Reports"
+          meta="Module pending"
+          title="Customer Reports"
+        />
+      </section>
+    </section>
+  )
+}
+
+export default StaffDashboard
