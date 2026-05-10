@@ -134,14 +134,14 @@
 
 .page-heading {
   padding-bottom: 32px;
-  border-bottom: 1px solid #2e2e2e;
+  border-bottom: 1px solid #dddddd;
 }
 
 .page-heading h1,
 .section-title h2,
 .form-stack h2 {
   margin: 0;
-  color: #f0f0f0;
+  color: #111111;
   font-weight: 400;
 }
 
@@ -158,7 +158,7 @@
 
 .eyebrow {
   margin: 0 0 12px;
-  color: #555555;
+  color: #888888;
   font-size: 12px;
   letter-spacing: 3px;
   text-transform: uppercase;
@@ -172,10 +172,10 @@
 }
 
 .panel {
-  border: 1px solid #333333;
+  border: 1px solid #e0e0e0;
   border-radius: 3px;
   padding: 28px;
-  background: #222222;
+  background: #ffffff;
 }
 
 .wide-panel {
@@ -199,7 +199,7 @@ label {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  color: #aaaaaa;
+  color: #555555;
   font-size: 14px;
   letter-spacing: 0.5px;
 }
@@ -209,11 +209,11 @@ select,
 textarea {
   width: 100%;
   min-height: 46px;
-  border: 1px solid #333333;
+  border: 1px solid #dddddd;
   border-radius: 3px;
   padding: 13px 16px;
-  background: #1b1b1b;
-  color: #eeeeee;
+  background: #fafafa;
+  color: #111111;
   outline: none;
   transition:
     border-color 160ms ease,
@@ -221,7 +221,7 @@ textarea {
 }
 
 select {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 textarea {
@@ -231,13 +231,13 @@ textarea {
 input:focus,
 select:focus,
 textarea:focus {
-  border-color: #777777;
-  background: #202020;
+  border-color: #888888;
+  background: #ffffff;
 }
 
 input:disabled {
-  background: #202020;
-  color: #555555;
+  background: #f0f0f0;
+  color: #aaaaaa;
 }
 
 .checkbox-row {
@@ -251,7 +251,7 @@ input:disabled {
 .checkbox-row input {
   width: 18px;
   min-height: 18px;
-  accent-color: #eeeeee;
+  accent-color: #111111;
 }
 
 .form-actions {
@@ -276,80 +276,80 @@ input:disabled {
 .primary-button {
   min-height: 46px;
   padding: 12px 18px;
-  background: #efefef;
-  color: #111111;
+  background: #111111;
+  color: #ffffff;
 }
 
 .primary-button:hover {
-  background: #ffffff;
+  background: #333333;
 }
 
 .secondary-button,
 .small-button.secondary {
   min-height: 42px;
   padding: 10px 14px;
-  border: 1px solid #444444;
-  background: #222222;
-  color: #cccccc;
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  color: #444444;
 }
 
 .secondary-button:hover,
 .small-button.secondary:hover {
-  border-color: #666666;
-  color: #ffffff;
+  border-color: #888888;
+  color: #111111;
 }
 
 .small-button {
   min-height: 34px;
   padding: 7px 11px;
-  background: #efefef;
-  color: #111111;
+  background: #111111;
+  color: #ffffff;
 }
 
 .small-button:hover {
-  background: #ffffff;
+  background: #333333;
 }
 
 .text-button {
   background: transparent;
-  color: #cccccc;
+  color: #555555;
   padding: 6px 0;
 }
 
 .text-button:hover {
-  color: #ffffff;
+  color: #111111;
 }
 
 .alert {
   border-radius: 3px;
   padding: 14px 16px;
-  color: #aaaaaa;
   font-size: 14px;
 }
 
 .alert-error {
-  border: 1px solid #444444;
-  background: #222222;
+  border: 1px solid #e0c0c0;
+  background: #fdf0f0;
+  color: #8a3a3a;
 }
 
 .alert-success {
-  border: 1px solid #2a4a30;
-  background: #1a2e1e;
-  color: #b8dfc0;
+  border: 1px solid #b0d5bb;
+  background: #f0f8f2;
+  color: #2a6a3a;
 }
 
 .muted,
 .empty-state {
-  color: #666666;
+  color: #999999;
   line-height: 1.7;
 }
 
 .count-label {
-  border: 1px solid #333333;
+  border: 1px solid #dddddd;
   border-radius: 2px;
   padding: 6px 14px;
-  background: #2a2a2a;
-  color: #777777;
+  background: #f5f5f5;
+  color: #999999;
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -369,7 +369,7 @@ table {
 
 th,
 td {
-  border-bottom: 1px solid #303030;
+  border-bottom: 1px solid #eeeeee;
   padding: 14px 12px;
   text-align: left;
   vertical-align: middle;
@@ -377,7 +377,7 @@ td {
 }
 
 th {
-  color: #555555;
+  color: #999999;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 2px;
@@ -385,7 +385,7 @@ th {
 }
 
 td {
-  color: #cccccc;
+  color: #333333;
 }
 
 .table-actions {
@@ -398,7 +398,7 @@ td {
   display: inline-flex;
   min-width: 74px;
   justify-content: center;
-  border: 1px solid #333333;
+  border: 1px solid #dddddd;
   border-radius: 2px;
   padding: 6px 12px;
   font-size: 11px;
@@ -407,15 +407,15 @@ td {
 }
 
 .status-badge.active {
-  border-color: #2a4a30;
-  background: #1a2e1e;
-  color: #b8dfc0;
+  border-color: #b0d5bb;
+  background: #f0f8f2;
+  color: #2a6a3a;
 }
 
 .status-badge.inactive {
-  border-color: #4a2a2a;
-  background: #2a1b1b;
-  color: #d5a0a0;
+  border-color: #e0c0c0;
+  background: #fdf0f0;
+  color: #8a3a3a;
 }
 
 .details-strip {
@@ -423,15 +423,16 @@ td {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border: 1px solid #333333;
+  border: 1px solid #e0e0e0;
   border-radius: 3px;
   padding: 14px 16px;
-  background: #222222;
-  color: #cccccc;
+  background: #ffffff;
+  color: #333333;
 }
 
 .details-strip a {
-  color: #ffffff;
+  color: #111111;
+  font-weight: 600;
 }
 
 .lookup-bar {
@@ -439,10 +440,10 @@ td {
   grid-template-columns: minmax(180px, 1fr) auto;
   gap: 14px;
   align-items: end;
-  border: 1px solid #333333;
+  border: 1px solid #e0e0e0;
   border-radius: 3px;
   padding: 18px;
-  background: #222222;
+  background: #ffffff;
 }
 
 .details-layout {
@@ -458,15 +459,15 @@ td {
 }
 
 .details-list div {
-  border: 1px solid #303030;
+  border: 1px solid #eeeeee;
   border-radius: 3px;
   padding: 14px;
-  background: #1b1b1b;
+  background: #fafafa;
 }
 
 .details-list dt {
   margin-bottom: 6px;
-  color: #555555;
+  color: #999999;
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -474,7 +475,7 @@ td {
 
 .details-list dd {
   margin: 0;
-  color: #cccccc;
+  color: #333333;
   overflow-wrap: anywhere;
 }
 
@@ -489,15 +490,15 @@ td {
 }
 
 .stat-tile {
-  border: 1px solid #333333;
+  border: 1px solid #e0e0e0;
   border-radius: 0;
   padding: 24px;
-  background: #222222;
+  background: #ffffff;
 }
 
 .stat-tile span {
   display: block;
-  color: #555555;
+  color: #999999;
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -506,7 +507,7 @@ td {
 .stat-tile strong {
   display: block;
   margin-top: 12px;
-  color: #f0f0f0;
+  color: #111111;
   font-size: 44px;
   font-weight: 300;
   line-height: 1;
@@ -524,10 +525,10 @@ td {
   flex-direction: column;
   justify-content: space-between;
   gap: 18px;
-  border: 1px solid #333333;
+  border: 1px solid #e0e0e0;
   border-radius: 0;
   padding: 34px 30px;
-  background: #242424;
+  background: #ffffff;
   color: inherit;
   text-decoration: none;
   transition:
@@ -536,8 +537,8 @@ td {
 }
 
 .dashboard-card:not(.disabled):hover {
-  border-color: #555555;
-  background: #2a2a2a;
+  border-color: #aaaaaa;
+  background: #f8f8f8;
 }
 
 .dashboard-card.disabled {
@@ -547,7 +548,7 @@ td {
 
 .dashboard-card h2 {
   margin: 0;
-  color: #f0f0f0;
+  color: #111111;
   font-size: 23px;
   font-weight: 400;
   line-height: 1.2;
@@ -555,14 +556,14 @@ td {
 
 .dashboard-card p:not(.card-eyebrow) {
   margin: 12px 0 0;
-  color: #777777;
+  color: #888888;
   font-size: 15px;
   line-height: 1.7;
 }
 
 .card-eyebrow {
   margin: 0 0 16px;
-  color: #555555;
+  color: #aaaaaa;
   font-size: 11px;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -573,15 +574,15 @@ td {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  border-top: 1px solid #2e2e2e;
+  border-top: 1px solid #eeeeee;
   padding-top: 16px;
-  color: #777777;
+  color: #aaaaaa;
   font-size: 14px;
   letter-spacing: 0.5px;
 }
 
 .dashboard-card-footer span:last-child {
-  color: #999999;
+  color: #bbbbbb;
 }
 
 .accent-teal,
@@ -589,7 +590,7 @@ td {
 .accent-amber,
 .accent-rose,
 .accent-violet {
-  border-left-color: #333333;
+  border-left-color: #e0e0e0;
 }
 
 .dashboard-split {
@@ -637,7 +638,7 @@ td {
 .star-button {
   border: 0;
   background: transparent;
-  color: #333333;
+  color: #cccccc;
   font-size: 30px;
   line-height: 1;
   padding: 4px;
@@ -645,11 +646,11 @@ td {
 
 .star-button.selected,
 .star-button:hover {
-  color: #e0e0e0;
+  color: #333333;
 }
 
 .rating-label {
-  color: #666666;
+  color: #999999;
   font-size: 14px;
 }
 
