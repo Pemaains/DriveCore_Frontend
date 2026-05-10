@@ -27,6 +27,7 @@ function Navbar() {
           <>
             <NavLink to="/admin/dashboard">Admin</NavLink>
             <NavLink to="/admin/staff">Staff Management</NavLink>
+            <NavLink to="/admin/notifications">Notifications</NavLink>
           </>
         )}
 

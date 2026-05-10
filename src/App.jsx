@@ -18,6 +18,7 @@ import CustomerDashboard from './pages/Customer/Dashboard'
 import RequestPart from './pages/Customer/RequestPart'
 import BookAppointment from './pages/Customer/BookAppointment'
 import ReviewService from './pages/Customer/ReviewService'
+import LowStockNotifications from './pages/Admin/LowStockNotifications'
 import './App.css'
 
 const roleHomePaths = {
@@ -81,6 +82,15 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path="/admin/notifications"
+            element={
+              <RequireAuth roles={['Admin']}>
+                <LowStockNotifications />
+              </RequireAuth>
+            }
+          />
+
           <Route path="/staff" element={<Navigate to="/staff/dashboard" replace />} />
           <Route
             path="/staff/dashboard"

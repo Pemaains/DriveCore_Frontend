@@ -168,4 +168,26 @@ export const reviewApi = {
   },
 }
 
+export const notificationApi = {
+  getLowStock: async () => {
+    const response = await apiClient.get('/api/notification/low-stock')
+    return response.data
+  },
+  getUnreadCount: async () => {
+    const response = await apiClient.get('/api/notification/low-stock/unread-count')
+    return response.data
+  },
+  markAsRead: async (id) => {
+    const response = await apiClient.put(`/api/notification/low-stock/${id}/read`)
+    return response.data
+  },
+  markAllAsRead: async () => {
+    const response = await apiClient.put('/api/notification/low-stock/mark-all-read')
+    return response.data
+  },
+  delete: async (id) => {
+    await apiClient.delete(`/api/notification/low-stock/${id}`)
+  },
+}
+
 export default apiClient
