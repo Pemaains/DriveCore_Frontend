@@ -17,6 +17,14 @@ export async function loginUser(credentials) {
   return authData
 }
 
+export async function registerUser(data) {
+  const response = await apiClient.post('/api/auth/register', data)
+  const authData = response.data
+
+  saveAuth(authData)
+  return authData
+}
+
 export function saveAuth(authData) {
   const normalizedAuthData = {
     ...authData,

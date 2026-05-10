@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { getApiError } from '../../services/api'
 
@@ -98,6 +98,12 @@ function Login() {
         </label>
 
         <div className="form-actions">
+          <p className="muted" style={{ textAlign: 'center', marginTop: '12px' }}>
+            Don't have an account?{' '}
+            <Link to="/register" style={{ color: 'inherit', fontWeight: '600' }}>
+              Create one
+            </Link>
+          </p>
           <button type="submit" className="primary-button" disabled={loading}>
             {loading ? 'Signing in...' : 'Sign in'}
           </button>

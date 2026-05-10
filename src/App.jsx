@@ -5,6 +5,7 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom'
+import Register from './pages/Auth/Register'
 import Navbar from './components/Navbar'
 import { useAuth } from './hooks/useAuth'
 import AdminDashboard from './pages/Admin/Dashboard'
@@ -62,6 +63,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeRedirect />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           <Route
             path="/admin/dashboard"

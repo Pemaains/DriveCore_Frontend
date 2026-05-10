@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import { clearAuth, getStoredAuth, loginUser } from '../services/authService'
+import { clearAuth, getStoredAuth, loginUser, registerUser } from '../services/authService'
 import { AuthContext } from './auth-context'
 
 const allowedRoles = ['Admin', 'Staff', 'Customer']
@@ -9,6 +9,12 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (credentials) => {
     const authData = await loginUser(credentials)
+    setAuth(authData)
+    return authData
+  }, [])
+
+  const register = useCallback(async (data) => {
+    const authData = await registerUser(data)
     setAuth(authData)
     return authData
   }, [])
@@ -27,18 +33,19 @@ export function AuthProvider({ children }) {
         auth,
         isAuthenticated,
         login,
+        register,
         logout,
         user: isAuthenticated
           ? {
-              userId: auth.userId,
-              fullName: auth.fullName,
-              email: auth.email,
-              role: auth.role,
-            }
+            userId: auth.userId,
+            fullName: auth.fullName,
+            email: auth.email,
+            role: auth.role,
+          }
           : null,
       }
     },
-    [auth, login, logout],
+    [auth, login, register, logout],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
