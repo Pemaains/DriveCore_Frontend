@@ -25,6 +25,15 @@ const customerFeatures = [
     meta: 'Available now',
     to: '/my-reviews',
   },
+
+  {
+    title: 'Loyalty Program',
+    description: 'Check your loyalty status and get 10% discount on purchases over £5000.',
+    eyebrow: 'Rewards',
+    meta: 'Available now',
+    to: '/customer/loyalty',
+  },
+
 ]
 
 function CustomerDashboard() {
@@ -35,7 +44,7 @@ function CustomerDashboard() {
           <p className="eyebrow">Customer Portal</p>
           <h1>Welcome back.</h1>
         </div>
-        <span className="count-label">3 services</span>
+        <span className="count-label">4 services</span>
       </div>
 
       <p className="muted">

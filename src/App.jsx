@@ -10,6 +10,7 @@ import Navbar from './components/Navbar'
 import { useAuth } from './hooks/useAuth'
 import AdminDashboard from './pages/Admin/Dashboard'
 import ManageStaff from './pages/Admin/ManageStaff'
+import LoyaltyStatus from './pages/Customer/LoyaltyStatus'
 import Login from './pages/Auth/Login'
 import StaffDashboard from './pages/Staff/Dashboard'
 import RegisterCustomer from './pages/Staff/RegisterCustomer'
@@ -87,6 +88,15 @@ function App() {
             element={
               <RequireAuth roles={['Admin']}>
                 <LowStockNotifications />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/customer/loyalty"
+            element={
+              <RequireAuth roles={['Customer']}>
+                <LoyaltyStatus />
               </RequireAuth>
             }
           />

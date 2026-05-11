@@ -45,6 +45,7 @@ function Navbar() {
             <NavLink to="/customer/book-appointment">Appointments</NavLink>
             <NavLink to="/customer/request-part">Parts</NavLink>
             <NavLink to="/my-reviews">Reviews</NavLink>
+            <NavLink to="/customer/loyalty">Loyalty</NavLink>
           </>
         )}
 
