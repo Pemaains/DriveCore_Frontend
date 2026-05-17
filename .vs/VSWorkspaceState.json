@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\public",
+    "\\src",
+    "\\src\\assets",
+    "\\src\\context",
+    "\\src\\hooks"
+  ],
+  "SelectedNode": "\\src\\hooks\\useAuth.js",
+  "PreviewInSolutionExplorer": false
+}

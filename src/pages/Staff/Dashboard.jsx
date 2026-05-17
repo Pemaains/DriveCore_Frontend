@@ -90,10 +90,11 @@ function StaffDashboard() {
         />
         <DashboardCard
           accent="rose"
-          description="Prepare service and sales invoices when billing endpoints are connected."
+          description="Sell parts, create staff invoices, and send invoice emails from the service desk."
           eyebrow="Billing"
-          meta="Module pending"
+          meta="Available now"
           title="Sales Invoices"
+          to="/staff/sales/invoices"
         />
         <DashboardCard
           accent="violet"

@@ -36,6 +36,7 @@ function Navbar() {
             <NavLink to="/staff/dashboard">Service Desk</NavLink>
             <NavLink to="/staff/customers/register">Register</NavLink>
             <NavLink to="/staff/customers">Customers</NavLink>
+            <NavLink to="/staff/sales/invoices">Sales</NavLink>
           </>
         )}
 

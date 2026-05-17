@@ -1,6 +1,15 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { customerApi, getApiError } from '../../services/api'
+import { Link, useNavigate, useParams } from 'react-router-dom'
+import { getCustomerDetails } from '../../services/customerService'
+import { getApiError } from '../../services/api'
+
+function formatCurrency(amount) {
+  return new Intl.NumberFormat('en-LK', {
+    style: 'currency',
+    currency: 'LKR',
+    maximumFractionDigits: 2,
+  }).format(Number(amount || 0))
+}
 
 function CustomerDetails() {
   const { id } = useParams()
@@ -14,12 +23,16 @@ function CustomerDetails() {
     let ignore = false
 
     if (!id) {
+      setCustomer(null)
+      setLoadedCustomerId(null)
+      setLoading(false)
       return undefined
     }
 
     async function loadRouteCustomer() {
       try {
-        const data = await customerApi.getById(id)
+        setLoading(true)
+        const data = await getCustomerDetails(id)
 
         if (!ignore) {
           setCustomer(data)
@@ -161,6 +174,52 @@ function CustomerDetails() {
                     <tr>
                       <td colSpan="5" className="empty-state">
                         No vehicles found for this customer.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section className="panel">
+            <div className="section-title">
+              <h2>Invoice History</h2>
+              <span className="count-label">
+                {customer.invoices?.length || 0} invoices
+              </span>
+            </div>
+
+            <div className="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Invoice number</th>
+                    <th>Created at</th>
+                    <th>Vehicle ID</th>
+                    <th>Total amount</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {customer.invoices?.length ? (
+                    customer.invoices.map((invoice) => (
+                      <tr key={invoice.id}>
+                        <td>{invoice.invoiceNumber}</td>
+                        <td>{new Date(invoice.createdAt).toLocaleString()}</td>
+                        <td>{invoice.vehicleId || 'Not linked'}</td>
+                        <td>{formatCurrency(invoice.totalAmount)}</td>
+                        <td>
+                          <div className="table-actions">
+                            <Link to={`/staff/sales/invoices/${invoice.id}`}>View invoice</Link>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan="5" className="empty-state">
+                        No invoices found for this customer.
                       </td>
                     </tr>
                   )}
