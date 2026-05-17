@@ -139,10 +139,11 @@ function AdminDashboard() {
         />
         <DashboardCard
           accent="violet"
-          description="View revenue, purchase, and operational summaries once reporting data is available."
+          description="View daily, monthly, and yearly revenue summaries with invoice and item totals."
           eyebrow="Reports"
-          meta="Module pending"
+          meta="Available now"
           title="Financial Reports"
+          to="/admin/reports/financial"
         />
       </section>
     </section>

@@ -97,10 +97,11 @@ function StaffDashboard() {
         />
         <DashboardCard
           accent="violet"
-          description="Review customer service and sales reports once reporting data is available."
+          description="Review regular customers, high spenders, and pending credit follow-up in one place."
           eyebrow="Reports"
-          meta="Module pending"
+          meta="Available now"
           title="Customer Reports"
+          to="/staff/reports/customers"
         />
       </section>
     </section>

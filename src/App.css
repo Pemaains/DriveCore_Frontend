@@ -654,6 +654,16 @@ td {
   font-size: 14px;
 }
 
+.report-filter-grid {
+  align-items: end;
+}
+
+.history-item-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 @media (max-width: 1100px) {
   .two-column-layout {
     grid-template-columns: 1fr;
