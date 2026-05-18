@@ -29,6 +29,7 @@ function Navbar() {
             <NavLink to="/admin/staff">Staff Management</NavLink>
             <NavLink to="/admin/notifications">Notifications</NavLink>
             <NavLink to="/admin/email-reminder">Email Reminder</NavLink>
+            <NavLink to="/admin/reports/financial">Financial Report</NavLink>
           </>
         )}
 
@@ -38,6 +39,7 @@ function Navbar() {
             <NavLink to="/staff/customers/register">Register</NavLink>
             <NavLink to="/staff/customers">Customers</NavLink>
             <NavLink to="/staff/sales/invoices">Sales</NavLink>
+            <NavLink to="/staff/reports/customers">Customer Reports</NavLink>
           </>
         )}
 
@@ -48,6 +50,7 @@ function Navbar() {
             <NavLink to="/customer/request-part">Parts</NavLink>
             <NavLink to="/my-reviews">Reviews</NavLink>
             <NavLink to="/customer/loyalty">Loyalty</NavLink>
+            <NavLink to="/customer/history">Purchase & Service History</NavLink>
           </>
         )}
 
