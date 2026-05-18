@@ -27,8 +27,8 @@ function Navbar() {
           <>
             <NavLink to="/admin/dashboard">Admin</NavLink>
             <NavLink to="/admin/staff">Staff Management</NavLink>
-            <NavLink to="/admin/reports/financial">Financial Reports</NavLink>
             <NavLink to="/admin/notifications">Notifications</NavLink>
+            <NavLink to="/admin/email-reminder">Email Reminder</NavLink>
           </>
         )}
 
@@ -37,14 +37,13 @@ function Navbar() {
             <NavLink to="/staff/dashboard">Service Desk</NavLink>
             <NavLink to="/staff/customers/register">Register</NavLink>
             <NavLink to="/staff/customers">Customers</NavLink>
-            <NavLink to="/staff/reports/customers">Reports</NavLink>
+            <NavLink to="/staff/sales/invoices">Sales</NavLink>
           </>
         )}
 
         {user?.role === 'Customer' && (
           <>
             <NavLink to="/customer/dashboard">Customer Portal</NavLink>
-            <NavLink to="/customer/history">History</NavLink>
             <NavLink to="/customer/book-appointment">Appointments</NavLink>
             <NavLink to="/customer/request-part">Parts</NavLink>
             <NavLink to="/my-reviews">Reviews</NavLink>

@@ -17,12 +17,15 @@ import StaffDashboard from './pages/Staff/Dashboard'
 import RegisterCustomer from './pages/Staff/RegisterCustomer'
 import CustomerDetails from './pages/Staff/CustomerDetails'
 import CustomerReports from './pages/Staff/CustomerReports'
+import SalesInvoices from './pages/Staff/SalesInvoices'
+import InvoiceDetails from './pages/Staff/InvoiceDetails'
 import CustomerDashboard from './pages/Customer/Dashboard'
 import RequestPart from './pages/Customer/RequestPart'
 import BookAppointment from './pages/Customer/BookAppointment'
 import ReviewService from './pages/Customer/ReviewService'
 import LowStockNotifications from './pages/Admin/LowStockNotifications'
 import PurchaseHistory from './pages/Customer/PurchaseHistory'
+import EmailReminder from './pages/Admin/EmailReminder'
 import './App.css'
 
 const roleHomePaths = {
@@ -146,6 +149,22 @@ function App() {
             }
           />
           <Route
+              path="/staff/sales/invoices"
+              element={
+                <RequireAuth roles={['Staff']}>
+                    <SalesInvoices />
+                </RequireAuth>
+              }
+          />
+          <Route
+            path="/staff/sales/invoices/:id"
+            element={
+                <RequireAuth roles={['Staff']}>
+                    <InvoiceDetails />
+                </RequireAuth>
+            }
+          />
+          <Route
             path="/staff/reports/customers"
             element={
               <RequireAuth roles={['Staff']}>
@@ -217,6 +236,22 @@ function App() {
                 <ReviewService />
               </RequireAuth>
             }
+          />
+          <Route
+              path="/customers"
+              element={
+                <RequireAuth roles={['Staff']}>
+                  <CustomerDetails />
+                </RequireAuth>
+              }
+          />
+          <Route
+            path="/admin/email-reminder"
+            element={
+              <RequireAuth roles={['Admin']}>
+                 <EmailReminder />
+              </RequireAuth>
+              }
           />
           <Route
             path="/customer/history"
