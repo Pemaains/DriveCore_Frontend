@@ -30,8 +30,33 @@ function LowStockNotifications() {
     }, [])
 
     useEffect(() => {
-        loadNotifications()
-    }, [loadNotifications])
+        let ignore = false
+
+        async function loadInitialNotifications() {
+            try {
+                const data = await notificationApi.getLowStock()
+
+                if (!ignore) {
+                    setNotifications(data)
+                    setError('')
+                }
+            } catch (err) {
+                if (!ignore) {
+                    setError(getApiError(err))
+                }
+            } finally {
+                if (!ignore) {
+                    setLoading(false)
+                }
+            }
+        }
+
+        loadInitialNotifications()
+
+        return () => {
+            ignore = true
+        }
+    }, [])
 
     async function handleMarkAsRead(id) {
         try {

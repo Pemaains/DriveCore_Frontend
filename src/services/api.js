@@ -136,6 +136,10 @@ export const customerApi = {
     const response = await apiClient.get(`/api/staff/customers/${id}`)
     return response.data
   },
+  getHistory: async () => {
+    const response = await apiClient.get('/api/customer/me/history')
+    return response.data
+  },
 }
 
 export const partRequestApi = {
@@ -195,6 +199,36 @@ export const notificationApi = {
   },
   delete: async (id) => {
     await apiClient.delete(`/api/notification/low-stock/${id}`)
+  },
+}
+
+export const reportApi = {
+  getDailyFinancial: async (date) => {
+    const response = await apiClient.get('/api/admin/reports/financial/daily', {
+      params: date ? { date } : {},
+    })
+    return response.data
+  },
+  getMonthlyFinancial: async (year, month) => {
+    const response = await apiClient.get('/api/admin/reports/financial/monthly', {
+      params: {
+        ...(year ? { year } : {}),
+        ...(month ? { month } : {}),
+      },
+    })
+    return response.data
+  },
+  getYearlyFinancial: async (year) => {
+    const response = await apiClient.get('/api/admin/reports/financial/yearly', {
+      params: year ? { year } : {},
+    })
+    return response.data
+  },
+  getCustomerReports: async (topCount, overdueAfterDays) => {
+    const response = await apiClient.get('/api/staff/reports/customers', {
+      params: { topCount, overdueAfterDays },
+    })
+    return response.data
   },
 }
 

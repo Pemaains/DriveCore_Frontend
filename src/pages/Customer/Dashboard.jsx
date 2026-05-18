@@ -2,6 +2,14 @@ import DashboardCard from '../../components/DashboardCard'
 
 const customerFeatures = [
   {
+    title: 'Purchase History',
+    description:
+      'View your purchase invoices and service appointments in one timeline.',
+    eyebrow: 'History',
+    meta: 'Available now',
+    to: '/customer/history',
+  },
+  {
     title: 'Book Appointment',
     description:
       'Schedule a service appointment for your vehicle at your preferred date and time.',
@@ -44,7 +52,7 @@ function CustomerDashboard() {
           <p className="eyebrow">Customer Portal</p>
           <h1>Welcome back.</h1>
         </div>
-        <span className="count-label">4 services</span>
+        <span className="count-label">{customerFeatures.length} services</span>
       </div>
 
       <p className="muted">
