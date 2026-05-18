@@ -28,6 +28,7 @@ function Navbar() {
             <NavLink to="/admin/dashboard">Admin</NavLink>
             <NavLink to="/admin/staff">Staff Management</NavLink>
             <NavLink to="/admin/notifications">Notifications</NavLink>
+            <NavLink to="/admin/email-reminder">Email Reminder</NavLink>
           </>
         )}
 

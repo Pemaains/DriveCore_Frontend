@@ -22,6 +22,7 @@ import RequestPart from './pages/Customer/RequestPart'
 import BookAppointment from './pages/Customer/BookAppointment'
 import ReviewService from './pages/Customer/ReviewService'
 import LowStockNotifications from './pages/Admin/LowStockNotifications'
+import EmailReminder from './pages/Admin/EmailReminder'
 import './App.css'
 
 const roleHomePaths = {
@@ -222,6 +223,14 @@ function App() {
             element={
               <RequireAuth roles={['Staff']}>
                 <CustomerDetails />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/admin/email-reminder"
+            element={
+              <RequireAuth roles={['Admin']}>
+                <EmailReminder />
               </RequireAuth>
             }
           />
