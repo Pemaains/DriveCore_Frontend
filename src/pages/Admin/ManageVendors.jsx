@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { getApiError } from '../../services/api'
 import {
   createVendor,
   deleteVendor,
@@ -19,20 +20,26 @@ function ManageVendors() {
   const [vendors, setVendors] = useState([])
   const [form, setForm] = useState(defaultForm)
   const [editingId, setEditingId] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  const loadVendors = async () => {
-    const data = await getVendors()
-    setVendors(data)
-  }
+  const loadVendors = useCallback(async () => {
+    try {
+      setLoading(true)
+      setError('')
+      const data = await getVendors()
+      setVendors(Array.isArray(data) ? data : [])
+    } catch (err) {
+      setVendors([])
+      setError(getApiError(err))
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
-    const loadData = async () => {
-      await loadVendors()
-    }
-
-    loadData()
-  }, [])
+    loadVendors()
+  }, [loadVendors])
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -47,7 +54,7 @@ function ManageVendors() {
       setEditingId(null)
       await loadVendors()
     } catch (err) {
-      setError(err?.response?.data || 'Failed to save vendor.')
+      setError(getApiError(err))
     }
   }
 
@@ -65,10 +72,11 @@ function ManageVendors() {
 
   const onDelete = async (id) => {
     try {
+      setError('')
       await deleteVendor(id)
       await loadVendors()
     } catch (err) {
-      setError(err?.response?.data || 'Failed to delete vendor.')
+      setError(getApiError(err))
     }
   }
 
@@ -156,7 +164,9 @@ function ManageVendors() {
           <span className="panel-meta">{vendors.length} records</span>
         </div>
         <div className="entity-list">
-          {vendors.length ? (
+          {loading ? (
+            <p className="empty-state">Loading vendors...</p>
+          ) : vendors.length ? (
             vendors.map((vendor) => (
               <article key={vendor.id} className="entity-row">
                 <div>
