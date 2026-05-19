@@ -38,8 +38,35 @@ function ManageVendors() {
   }, [])
 
   useEffect(() => {
-    loadVendors()
-  }, [loadVendors])
+    let ignore = false
+
+    async function loadInitialVendors() {
+      try {
+        setLoading(true)
+        setError('')
+        const data = await getVendors()
+
+        if (!ignore) {
+          setVendors(Array.isArray(data) ? data : [])
+        }
+      } catch (err) {
+        if (!ignore) {
+          setVendors([])
+          setError(getApiError(err))
+        }
+      } finally {
+        if (!ignore) {
+          setLoading(false)
+        }
+      }
+    }
+
+    loadInitialVendors()
+
+    return () => {
+      ignore = true
+    }
+  }, [])
 
   const onSubmit = async (e) => {
     e.preventDefault()

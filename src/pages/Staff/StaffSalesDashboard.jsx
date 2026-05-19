@@ -1,20 +1,16 @@
-import { useState, useEffect } from 'react';
-import { getApiError } from '../../services/api';
+import { useCallback, useEffect, useState } from 'react';
 import './StaffSalesDashboard.css';
 
-const API_BASE_URL = 'http://localhost:5248/api';
+const baseHeaders = {
+   'Content-Type': 'application/json',
+   Authorization: 'Bearer ',
+};
 
 function StaffSalesDashboard() {
    const [activeTab, setActiveTab] = useState('sales');
    const [error, setError] = useState('');
    const [loading, setLoading] = useState(false);
    const [successMessage, setSuccessMessage] = useState('');
-
-   const getToken = () => localStorage.getItem('token') || '';
-   const baseHeaders = {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ',
-   };
 
    const [parts, setParts] = useState([]);
    const [newPartName, setNewPartName] = useState('');
@@ -24,21 +20,41 @@ function StaffSalesDashboard() {
    const [selectedCustomerId, setSelectedCustomerId] = useState('');
    const [cartItems, setCartItems] = useState([]);
 
-   useEffect(() => {
-      fetchParts();
-   }, []);
-
-   const fetchParts = async () => {
+   const fetchParts = useCallback(async () => {
       try {
          const res = await fetch('/staff/sales/parts', { headers: baseHeaders });
          if (res.ok) {
             const data = await res.json();
             setParts(data);
          }
-      } catch (e) {
+      } catch {
          console.error('Failed to fetch parts');
       }
-   };
+   }, []);
+
+   useEffect(() => {
+      let ignore = false;
+
+      async function loadInitialParts() {
+         try {
+            const res = await fetch('/staff/sales/parts', { headers: baseHeaders });
+            if (res.ok) {
+               const data = await res.json();
+               if (!ignore) {
+                  setParts(data);
+               }
+            }
+         } catch {
+            console.error('Failed to fetch parts');
+         }
+      }
+
+      loadInitialParts();
+
+      return () => {
+         ignore = true;
+      };
+   }, []);
 
    const handleCreatePart = async (e) => {
       e.preventDefault();
@@ -65,7 +81,7 @@ function StaffSalesDashboard() {
             const errData = await res.json();
             setError(errData.message || 'Failed to create part.');
          }
-      } catch (err) {
+      } catch {
          setError('Error creating part');
       } finally {
          setLoading(false);
@@ -95,7 +111,7 @@ function StaffSalesDashboard() {
             const invoiceData = await res.json();
             const sendEmail = window.confirm('Invoice  created! Send email to customer now?');
             if (sendEmail) {
-               const emailRes = await fetch('/staff/sales/invoices//send', {
+               const emailRes = await fetch(`/staff/sales/invoices/${invoiceData.id}/send`, {
                   method: 'POST',
                   headers: baseHeaders,
                });
@@ -110,7 +126,7 @@ function StaffSalesDashboard() {
             const errData = await res.json();
             setError(errData.message || 'Failed to create invoice.');
          }
-      } catch (err) {
+      } catch {
          setError('Error creating invoice');
       } finally {
          setLoading(false);
@@ -137,7 +153,7 @@ function StaffSalesDashboard() {
       setSuccessMessage('');
       setLoading(true);
       try {
-         const res = await fetch('/staff/customers//details', {
+         const res = await fetch(`/staff/customers/${customerLookupId}/details`, {
             headers: baseHeaders,
          });
          if (res.ok) {
@@ -148,7 +164,7 @@ function StaffSalesDashboard() {
             setError(errData.message || 'Customer not found.');
             setCustomerDetails(null);
          }
-      } catch (err) {
+      } catch {
          setError('Customer not found.');
       } finally {
          setLoading(false);

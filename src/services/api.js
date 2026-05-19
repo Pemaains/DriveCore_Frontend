@@ -92,6 +92,10 @@ export const staffApi = {
     })
     return response.data
   },
+  delete: async (id) => {
+    const response = await apiClient.delete(`/api/admin/staff/${id}`)
+    return response.data
+  },
 }
 
 function buildTemporaryPassword(email) {
@@ -139,6 +143,37 @@ export const customerApi = {
   getHistory: async () => {
     const response = await apiClient.get('/api/customer/me/history')
     return response.data
+  },
+  search: async (query) => {
+    const response = await apiClient.get('/api/staff/customers/search', {
+      params: { query },
+    })
+    return response.data
+  },
+}
+
+export const customerSelfApi = {
+  getProfile: async () => {
+    const response = await apiClient.get('/api/customer/me')
+    return response.data
+  },
+  updateProfile: async (profile) => {
+    const response = await apiClient.put('/api/customer/me', profile)
+    return response.data
+  },
+  addVehicle: async (vehicle) => {
+    const response = await apiClient.post('/api/customer/me/vehicles', vehicle)
+    return response.data
+  },
+  updateVehicle: async (vehicleId, vehicle) => {
+    const response = await apiClient.put(
+      `/api/customer/me/vehicles/${vehicleId}`,
+      vehicle,
+    )
+    return response.data
+  },
+  deleteVehicle: async (vehicleId) => {
+    await apiClient.delete(`/api/customer/me/vehicles/${vehicleId}`)
   },
 }
 

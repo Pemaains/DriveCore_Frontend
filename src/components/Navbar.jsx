@@ -21,7 +21,12 @@ function Navbar() {
       </div>
 
       <nav className="nav-links" aria-label="Main navigation">
-        {!isAuthenticated && <NavLink to="/login">Login</NavLink>}
+        {!isAuthenticated && (
+          <>
+            <NavLink to="/login">Login</NavLink>
+            <NavLink to="/register">Register</NavLink>
+          </>
+        )}
 
         {user?.role === 'Admin' && (
           <>
@@ -49,6 +54,7 @@ function Navbar() {
         {user?.role === 'Customer' && (
           <>
             <NavLink to="/customer/dashboard">Dashboard</NavLink>
+            <NavLink to="/customer/profile">Profile</NavLink>
             <NavLink to="/customer/book-appointment">Appointments</NavLink>
             <NavLink to="/customer/request-part">Parts</NavLink>
             <NavLink to="/my-reviews">Reviews</NavLink>

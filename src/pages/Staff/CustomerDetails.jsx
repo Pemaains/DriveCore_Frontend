@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getCustomerDetails } from '../../services/customerService'
-import { getApiError } from '../../services/api'
+import { customerApi, getApiError } from '../../services/api'
 import { formatCurrency } from '../../utils/currency'
 
 function CustomerDetails() {
@@ -10,15 +10,16 @@ function CustomerDetails() {
   const [customer, setCustomer] = useState(null)
   const [loadedCustomerId, setLoadedCustomerId] = useState(null)
   const [loading, setLoading] = useState(Boolean(id))
+  const [searchTerm, setSearchTerm] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+  const [searching, setSearching] = useState(false)
+  const [hasSearched, setHasSearched] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
     let ignore = false
 
     if (!id) {
-      setCustomer(null)
-      setLoadedCustomerId(null)
-      setLoading(false)
       return undefined
     }
 
@@ -54,19 +55,34 @@ function CustomerDetails() {
 
   const isLoadingCustomer = Boolean(id) && (loading || loadedCustomerId !== id)
 
-  function handleSearch(event) {
+  async function handleSearch(event) {
     event.preventDefault()
 
-    const formData = new FormData(event.currentTarget)
-    const selectedCustomerId = String(formData.get('customerId') || '').trim()
+    const query = searchTerm.trim()
 
-    if (!selectedCustomerId) {
-      setError('Customer ID is required.')
+    if (!query) {
+      setError('Search term is required.')
       return
     }
 
+    try {
+      setSearching(true)
+      setError('')
+      setHasSearched(true)
+
+      const results = await customerApi.search(query)
+      setSearchResults(results)
+    } catch (err) {
+      setSearchResults([])
+      setError(getApiError(err))
+    } finally {
+      setSearching(false)
+    }
+  }
+
+  function handleViewCustomer(customerId) {
     setLoading(true)
-    navigate(`/staff/customers/${selectedCustomerId}`)
+    navigate(`/staff/customers/${customerId}`)
   }
 
   return (
@@ -80,26 +96,79 @@ function CustomerDetails() {
 
       <form className="lookup-bar" onSubmit={handleSearch}>
         <label>
-          Customer ID
+          Search customers
           <input
-            type="number"
-            min="1"
-            name="customerId"
-            key={id || 'customer-lookup'}
-            defaultValue={id || ''}
+            type="search"
+            name="query"
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            placeholder="ID, name, phone, or vehicle number"
             required
           />
         </label>
         <button
           type="submit"
           className="primary-button"
-          disabled={isLoadingCustomer}
+          disabled={searching}
         >
-          {isLoadingCustomer ? 'Loading...' : 'Load Customer'}
+          {searching ? 'Searching...' : 'Search'}
         </button>
       </form>
 
       {error && <div className="alert alert-error">{error}</div>}
+
+      {hasSearched && (
+        <section className="panel">
+          <div className="section-title">
+            <h2>Search Results</h2>
+            <span className="count-label">{searchResults.length} records</span>
+          </div>
+
+          <div className="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Vehicles</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {searchResults.length === 0 ? (
+                  <tr>
+                    <td colSpan="5" className="empty-state">
+                      No customers matched your search.
+                    </td>
+                  </tr>
+                ) : (
+                  searchResults.map((result) => (
+                    <tr key={result.customerProfileId}>
+                      <td>{result.customerProfileId}</td>
+                      <td>{result.fullName}</td>
+                      <td>{result.phoneNumber}</td>
+                      <td>
+                        {result.vehicles?.map((vehicle) => vehicle.vehicleNumber).join(', ') ||
+                          'None'}
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          className="small-button"
+                          onClick={() => handleViewCustomer(result.customerProfileId)}
+                        >
+                          View
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
 
       {isLoadingCustomer && <p className="muted">Loading customer details...</p>}
 

@@ -17,8 +17,8 @@ export async function loginUser(credentials) {
   return authData
 }
 
-export async function registerUser(data) {
-  const response = await apiClient.post('/api/auth/register', data)
+export async function registerUser(registration) {
+  const response = await apiClient.post('/api/auth/register', registration)
   const authData = response.data
 
   saveAuth(authData)

@@ -197,6 +197,35 @@ function ManageStaff() {
     }
   }
 
+  async function deleteStaff(staff) {
+    const confirmed = window.confirm(
+      `Delete ${staff.fullName}'s staff account? This cannot be undone.`,
+    )
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      setSaving(true)
+      setError('')
+      setSuccess('')
+
+      await staffApi.delete(staff.userId)
+
+      if (editingStaff?.userId === staff.userId) {
+        resetForm()
+      }
+
+      setSuccess('Staff account deleted successfully.')
+      await loadStaff()
+    } catch (err) {
+      setError(getApiError(err))
+    } finally {
+      setSaving(false)
+    }
+  }
+
   return (
     <section className="page">
       <div className="page-heading">
@@ -400,6 +429,14 @@ function ManageStaff() {
                               disabled={saving}
                             >
                               {staff.isActive ? 'Deactivate' : 'Activate'}
+                            </button>
+                            <button
+                              type="button"
+                              className="small-button danger"
+                              onClick={() => deleteStaff(staff)}
+                              disabled={saving}
+                            >
+                              Delete
                             </button>
                           </div>
                         </td>

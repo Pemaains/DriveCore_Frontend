@@ -2,6 +2,14 @@ import DashboardCard from '../../components/DashboardCard'
 
 const customerFeatures = [
   {
+    title: 'Profile & Vehicles',
+    description:
+      'Update your contact details and maintain the vehicles linked to your account.',
+    eyebrow: 'Self service',
+    meta: 'Available now',
+    to: '/customer/profile',
+  },
+  {
     title: 'Purchase History',
     description:
       'View your purchase invoices and service appointments in one timeline.',

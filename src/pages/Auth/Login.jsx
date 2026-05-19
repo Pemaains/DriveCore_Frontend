@@ -4,9 +4,9 @@ import { useAuth } from '../../hooks/useAuth'
 import { getApiError } from '../../services/api'
 
 const roleHomePaths = {
-  Admin: '/admin/dashboard',
-  Staff: '/staff/dashboard',
-  Customer: '/customer/dashboard',
+  Admin: '/dashboard',
+  Staff: '/dashboard',
+  Customer: '/dashboard',
 }
 
 function getHomePath(role) {
@@ -108,6 +108,10 @@ function Login() {
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
         </div>
+
+        <p className="muted auth-note">
+          New customer? <Link to="/register">Create an account</Link>
+        </p>
       </form>
     </section>
   )

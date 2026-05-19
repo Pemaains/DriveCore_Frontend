@@ -5,30 +5,31 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom'
-import Register from './pages/Auth/Register'
 import Navbar from './components/Navbar'
 import { useAuth } from './hooks/useAuth'
 import AdminDashboard from './pages/Admin/Dashboard'
-import ManageStaff from './pages/Admin/ManageStaff'
-import FinancialReports from './pages/Admin/FinancialReports'
-import LoyaltyStatus from './pages/Customer/LoyaltyStatus'
-import Login from './pages/Auth/Login'
-import StaffDashboard from './pages/Staff/Dashboard'
-import RegisterCustomer from './pages/Staff/RegisterCustomer'
-import CustomerDetails from './pages/Staff/CustomerDetails'
-import CustomerReports from './pages/Staff/CustomerReports'
-import SalesInvoices from './pages/Staff/SalesInvoices'
-import InvoiceDetails from './pages/Staff/InvoiceDetails'
-import CustomerDashboard from './pages/Customer/Dashboard'
-import RequestPart from './pages/Customer/RequestPart'
-import BookAppointment from './pages/Customer/BookAppointment'
-import ReviewService from './pages/Customer/ReviewService'
-import LowStockNotifications from './pages/Admin/LowStockNotifications'
-import PurchaseHistory from './pages/Customer/PurchaseHistory'
 import EmailReminder from './pages/Admin/EmailReminder'
+import FinancialReports from './pages/Admin/FinancialReports'
+import LowStockNotifications from './pages/Admin/LowStockNotifications'
 import ManageParts from './pages/Admin/ManageParts'
+import ManageStaff from './pages/Admin/ManageStaff'
 import ManageVendors from './pages/Admin/ManageVendors'
 import PurchaseInvoices from './pages/Admin/PurchaseInvoices'
+import Login from './pages/Auth/Login'
+import Register from './pages/Auth/Register'
+import BookAppointment from './pages/Customer/BookAppointment'
+import CustomerDashboard from './pages/Customer/Dashboard'
+import LoyaltyStatus from './pages/Customer/LoyaltyStatus'
+import PurchaseHistory from './pages/Customer/PurchaseHistory'
+import CustomerProfile from './pages/Customer/Profile'
+import RequestPart from './pages/Customer/RequestPart'
+import ReviewService from './pages/Customer/ReviewService'
+import CustomerDetails from './pages/Staff/CustomerDetails'
+import CustomerReports from './pages/Staff/CustomerReports'
+import InvoiceDetails from './pages/Staff/InvoiceDetails'
+import RegisterCustomer from './pages/Staff/RegisterCustomer'
+import SalesInvoices from './pages/Staff/SalesInvoices'
+import StaffDashboard from './pages/Staff/Dashboard'
 import './App.css'
 
 const roleHomePaths = {
@@ -134,17 +135,6 @@ function App() {
               </RequireAuth>
             }
           />
-
-
-          <Route
-            path="/customer/loyalty"
-            element={
-              <RequireAuth roles={['Customer']}>
-                <LoyaltyStatus />
-              </RequireAuth>
-            }
-          />
-
           <Route path="/staff" element={<Navigate to="/staff/dashboard" replace />} />
           <Route
             path="/staff/dashboard"
@@ -212,6 +202,14 @@ function App() {
             }
           />
           <Route
+            path="/customer/profile"
+            element={
+              <RequireAuth roles={['Customer']}>
+                <CustomerProfile />
+              </RequireAuth>
+            }
+          />
+          <Route
             path="/customer/book-appointment"
             element={
               <RequireAuth roles={['Customer']}>
@@ -268,14 +266,6 @@ function App() {
             }
           />
           <Route
-            path="/customers"
-            element={
-              <RequireAuth roles={['Staff']}>
-                <CustomerDetails />
-              </RequireAuth>
-            }
-          />
-          <Route
             path="/admin/email-reminder"
             element={
               <RequireAuth roles={['Admin']}>
@@ -288,6 +278,14 @@ function App() {
             element={
               <RequireAuth roles={['Customer']}>
                 <PurchaseHistory />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/customer/loyalty"
+            element={
+              <RequireAuth roles={['Customer']}>
+                <LoyaltyStatus />
               </RequireAuth>
             }
           />

@@ -58,8 +58,8 @@ function StaffDashboard() {
             <h2>Active Work</h2>
           </div>
           <p className="muted">
-            Staff can register customers with vehicle details, then open the
-            customer record for service desk follow-up.
+            Staff can register customers with vehicle details, then search saved
+            customer records for service desk follow-up.
           </p>
         </div>
       </section>
@@ -75,7 +75,7 @@ function StaffDashboard() {
         />
         <DashboardCard
           accent="blue"
-          description="Open a customer profile, contact details, and vehicle records by customer ID."
+          description="Search customer profiles by ID, name, phone, or vehicle number."
           eyebrow="Records"
           meta="Available now"
           title="Customer Details"
