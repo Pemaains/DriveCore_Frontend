@@ -4,6 +4,7 @@ import { getCustomerDetails } from '../../services/customerService';
 import { createSalesInvoice, sendInvoiceEmail } from '../../services/invoiceService';
 import { getApiError } from '../../services/api';
 import { createPart, getAllParts } from '../../services/partsService';
+import { formatCurrency } from '../../utils/currency';
 
 const emptyPartForm = {
    name: '',
@@ -17,14 +18,6 @@ const emptyInvoiceItem = {
    partId: '',
    quantity: '1',
 };
-
-function formatCurrency(amount) {
-   return new Intl.NumberFormat('en-LK', {
-      style: 'currency',
-      currency: 'LKR',
-      maximumFractionDigits: 2,
-   }).format(Number(amount || 0));
-}
 
 function buildInvoiceItem(parts, item, index) {
    const matchedPart = parts.find((part) => String(part.id) === item.partId);

@@ -2,14 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getCustomerDetails } from '../../services/customerService'
 import { getApiError } from '../../services/api'
-
-function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-LK', {
-    style: 'currency',
-    currency: 'LKR',
-    maximumFractionDigits: 2,
-  }).format(Number(amount || 0))
-}
+import { formatCurrency } from '../../utils/currency'
 
 function CustomerDetails() {
   const { id } = useParams()

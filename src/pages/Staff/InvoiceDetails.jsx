@@ -2,14 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { getInvoiceById, sendInvoiceEmail } from '../../services/invoiceService'
 import { getApiError } from '../../services/api'
-
-function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-LK', {
-    style: 'currency',
-    currency: 'LKR',
-    maximumFractionDigits: 2,
-  }).format(Number(amount || 0))
-}
+import { formatCurrency } from '../../utils/currency'
 
 function InvoiceDetails() {
   const { id } = useParams()
