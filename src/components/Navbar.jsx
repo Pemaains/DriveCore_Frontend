@@ -30,6 +30,12 @@ function Navbar() {
             <NavLink to="/admin/notifications">Notifications</NavLink>
             <NavLink to="/admin/email-reminder">Email Reminder</NavLink>
             <NavLink to="/admin/reports/financial">Financial Report</NavLink>
+            
+
+             /* Inventory Management */
+             <NavLink to="/admin/manage-parts">Manage Parts</NavLink>
+              <NavLink to="/admin/manage-vendors">Manage Vendors</NavLink>
+               <NavLink to="/admin/purchase-invoices">Purchase Invoices</NavLink>
           </>
         )}
 

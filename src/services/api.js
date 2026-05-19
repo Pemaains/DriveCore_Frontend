@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 function normalizeBaseUrl(baseUrl) {
-  const normalizedValue = (baseUrl || 'https://localhost:7196').trim().replace(/\/+$/, '')
+  const normalizedValue = (baseUrl || 'http://localhost:5089').trim().replace(/\/+$/, '')
 
   return normalizedValue.endsWith('/api')
     ? normalizedValue.slice(0, -4)

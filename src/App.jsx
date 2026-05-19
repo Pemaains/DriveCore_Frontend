@@ -26,6 +26,9 @@ import ReviewService from './pages/Customer/ReviewService'
 import LowStockNotifications from './pages/Admin/LowStockNotifications'
 import PurchaseHistory from './pages/Customer/PurchaseHistory'
 import EmailReminder from './pages/Admin/EmailReminder'
+import ManageParts from './pages/Admin/ManageParts'
+import ManageVendors from './pages/Admin/ManageVendors'
+import PurchaseInvoices from './pages/Admin/PurchaseInvoices'
 import './App.css'
 
 const roleHomePaths = {
@@ -105,6 +108,33 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path="/admin/manage-vendors"
+            element={
+              <RequireAuth roles={['Admin']}>
+                <ManageVendors />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/admin/manage-parts"
+            element={
+              <RequireAuth roles={['Admin']}>
+                <ManageParts />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/admin/purchase-invoices"
+            element={
+              <RequireAuth roles={['Admin']}>
+                <PurchaseInvoices />
+              </RequireAuth>
+            }
+          />
+
 
           <Route
             path="/customer/loyalty"
@@ -149,19 +179,19 @@ function App() {
             }
           />
           <Route
-              path="/staff/sales/invoices"
-              element={
-                <RequireAuth roles={['Staff']}>
-                    <SalesInvoices />
-                </RequireAuth>
-              }
+            path="/staff/sales/invoices"
+            element={
+              <RequireAuth roles={['Staff']}>
+                <SalesInvoices />
+              </RequireAuth>
+            }
           />
           <Route
             path="/staff/sales/invoices/:id"
             element={
-                <RequireAuth roles={['Staff']}>
-                    <InvoiceDetails />
-                </RequireAuth>
+              <RequireAuth roles={['Staff']}>
+                <InvoiceDetails />
+              </RequireAuth>
             }
           />
           <Route
@@ -238,20 +268,20 @@ function App() {
             }
           />
           <Route
-              path="/customers"
-              element={
-                <RequireAuth roles={['Staff']}>
-                  <CustomerDetails />
-                </RequireAuth>
-              }
+            path="/customers"
+            element={
+              <RequireAuth roles={['Staff']}>
+                <CustomerDetails />
+              </RequireAuth>
+            }
           />
           <Route
             path="/admin/email-reminder"
             element={
               <RequireAuth roles={['Admin']}>
-                 <EmailReminder />
+                <EmailReminder />
               </RequireAuth>
-              }
+            }
           />
           <Route
             path="/customer/history"
