@@ -25,38 +25,35 @@ function Navbar() {
 
         {user?.role === 'Admin' && (
           <>
-            <NavLink to="/admin/dashboard">Admin</NavLink>
-            <NavLink to="/admin/staff">Staff Management</NavLink>
+            <NavLink to="/admin/dashboard">Dashboard</NavLink>
+            <NavLink to="/admin/staff">Staff</NavLink>
+            <NavLink to="/admin/manage-parts">Parts</NavLink>
+            <NavLink to="/admin/manage-vendors">Vendors</NavLink>
+            <NavLink to="/admin/purchase-invoices">Invoices</NavLink>
+            <NavLink to="/admin/reports/financial">Reports</NavLink>
             <NavLink to="/admin/notifications">Notifications</NavLink>
-            <NavLink to="/admin/email-reminder">Email Reminder</NavLink>
-            <NavLink to="/admin/reports/financial">Financial Report</NavLink>
-            
-
-             /* Inventory Management */
-             <NavLink to="/admin/manage-parts">Manage Parts</NavLink>
-              <NavLink to="/admin/manage-vendors">Manage Vendors</NavLink>
-               <NavLink to="/admin/purchase-invoices">Purchase Invoices</NavLink>
+            <NavLink to="/admin/email-reminder">Emails</NavLink>
           </>
         )}
 
         {user?.role === 'Staff' && (
           <>
-            <NavLink to="/staff/dashboard">Service Desk</NavLink>
+            <NavLink to="/staff/dashboard">Dashboard</NavLink>
             <NavLink to="/staff/customers/register">Register</NavLink>
             <NavLink to="/staff/customers">Customers</NavLink>
             <NavLink to="/staff/sales/invoices">Sales</NavLink>
-            <NavLink to="/staff/reports/customers">Customer Reports</NavLink>
+            <NavLink to="/staff/reports/customers">Reports</NavLink>
           </>
         )}
 
         {user?.role === 'Customer' && (
           <>
-            <NavLink to="/customer/dashboard">Customer Portal</NavLink>
+            <NavLink to="/customer/dashboard">Dashboard</NavLink>
             <NavLink to="/customer/book-appointment">Appointments</NavLink>
             <NavLink to="/customer/request-part">Parts</NavLink>
             <NavLink to="/my-reviews">Reviews</NavLink>
             <NavLink to="/customer/loyalty">Loyalty</NavLink>
-            <NavLink to="/customer/history">Purchase & Service History</NavLink>
+            <NavLink to="/customer/history">History</NavLink>
           </>
         )}
 
