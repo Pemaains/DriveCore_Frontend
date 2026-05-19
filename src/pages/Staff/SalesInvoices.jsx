@@ -7,6 +7,7 @@ import { createPart, getAllParts } from '../../services/partsService';
 
 const emptyPartForm = {
    name: '',
+   partNumber: '',
    description: '',
    unitPrice: '',
    stockQuantity: '',
@@ -145,6 +146,7 @@ function SalesInvoices() {
 
    function validatePartForm() {
       if (!partForm.name.trim()) return 'Part name is required.';
+      if (!partForm.partNumber.trim()) return 'Part number is required.';
       if (!partForm.unitPrice.trim()) return 'Unit price is required.';
       if (!partForm.stockQuantity.trim()) return 'Stock quantity is required.';
 
@@ -230,6 +232,7 @@ function SalesInvoices() {
 
          const payload = {
             name: partForm.name.trim(),
+            partNumber: partForm.partNumber.trim(),
             description: partForm.description.trim(),
             unitPrice: Number(partForm.unitPrice),
             stockQuantity: Number(partForm.stockQuantity),
@@ -371,6 +374,10 @@ function SalesInvoices() {
                   <label>
                      Part name
                      <input type="text" name="name" value={partForm.name} onChange={handlePartFormChange} required />
+                  </label>
+                  <label>
+                     Part number
+                     <input type="text" name="partNumber" value={partForm.partNumber} onChange={handlePartFormChange} required />
                   </label>
                   <label>
                      Description
